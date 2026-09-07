@@ -1,0 +1,40 @@
+# Segredos e variáveis reais
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+*.pfx
+*.p12
+secrets/
+
+# Dados persistentes e modelos locais
+data/
+ollama/
+models/
+vector-store/
+chroma/
+qdrant/
+
+# Backups, logs e artefatos
+backups/
+logs/
+reports/
+*.log
+
+# Dependências e ambientes
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+node_modules/
+target/
+build/
+dist/
+
+# IDE e sistema
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
