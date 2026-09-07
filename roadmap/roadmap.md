@@ -1,6 +1,8 @@
-# Roadmap
+# Roadmap do Bastiao
 
-## Fase 0: Fundação — concluída
+Este documento descreve as fases de evolucao do Bastiao, da fundacao ate a autonomia supervisionada. Cada fase (a partir da Fase 1) esta associada a uma issue no GitHub para acompanhamento.
+
+## Fase 0: Fundacao — concluida
 
 - [x] Ubuntu Server 26.04 LTS
 - [x] SSH remoto
@@ -9,48 +11,111 @@
 - [x] Open WebUI com dados persistentes
 - [x] Ollama isolado em Docker
 - [x] Driver NVIDIA, Secure Boot/MOK e NVIDIA Container Toolkit
-- [x] Modelos iniciais
+- [x] Modelos iniciais (`qwen3:8b`, `qwen2.5-coder:7b`, `llama3.2:3b`, `nomic-embed-text:latest`)
 
-## Fase 1: Conhecimento local
+**Referencia:** `docs/decisoes/ADR-001-arquitetura-inicial.md`
 
-- [ ] Configurar embeddings do Open WebUI com `nomic-embed-text:latest`
-- [ ] Criar base `Bastiao-Sistema`
-- [ ] Criar base `Projetos-Ativos`
-- [ ] Definir processo de curadoria e reindexação
+---
 
-## Fase 2: Bastião Explorer v0.1
+## Fase 1: Conhecimento (RAG) — issue #1
 
-- [ ] Workspace de repositório-piloto
-- [ ] Mapeamento de stack, estrutura e comandos
-- [ ] Leitura segura de arquivos não secretos
-- [ ] Relatório de arquitetura e dependências
-- [ ] Diagnóstico de testes em modo somente leitura
+- [ ] Configurar embeddings no Open WebUI com `nomic-embed-text:latest`
+- [ ] Criar base de conhecimento `Bastiao-Sistema` (documentacao, arquitetura, operacoes, decisoes)
+- [ ] Criar base `Projetos-Ativos` com um projeto-piloto sem segredos
+- [ ] Definir processo de curadoria, versionamento e reindexacao de documentos
 
-## Fase 3: Bastião Builder v0.1
+**Criterios de aceite:**
 
-- [ ] Criar branch local
-- [ ] Editar somente dentro do workspace
+- Conversas no Open WebUI conseguem usar RAG sobre `Bastiao-Sistema`.
+- Documentos curados estao fora do volume do Open WebUI e versionados/backupados.
+- Processo de inclusao/atualizacao de documentos esta documentado.
+
+**Issue:** https://github.com/IsraelSiq/bastiao/issues/1
+
+---
+
+## Fase 2: Explorer — issue #2
+
+- [ ] Leitura segura de filesystem (allowlist de paths, sem `.env`, sem segredos)
+- [ ] Integracao Git local em modo leitura (status, log, diff, branches)
+- [ ] Detecao de stack (linguagens, dependencias, comandos de build/teste)
+- [ ] Execucao de testes em modo somente leitura (comandos predefinidos)
+- [ ] Gerar relatorio de arquitetura, dependencias e saude do projeto
+
+**Criterios de aceite:**
+
+- O Explorer consegue listar e ler arquivos permitidos de um repositorio-piloto.
+- Identifica stack e comandos de teste/build e os registra em documento ou issue.
+- Executa testes predefinidos sem editar codigo e gera relatorio legivel.
+
+**Issue:** https://github.com/IsraelSiq/bastiao/issues/2
+
+---
+
+## Fase 3: Builder — issue #3
+
+- [ ] Criar branch local por tarefa
+- [ ] Edicao restrita ao workspace permitido
 - [ ] Executar testes, lint e build predefinidos
-- [ ] Gerar relatório e `git diff`
-- [ ] Exigir aprovação antes de commit/push
+- [ ] Gerar diff estruturado e relatorio de mudancas
+- [ ] Exigir aprovacao humana antes de commit/push
 
-## Fase 4: Conectores e pesquisa
+**Criterios de aceite:**
 
-- [ ] GitHub em modo leitura
-- [ ] Pesquisa web com fontes e registro de consultas
-- [ ] Google Drive em pastas autorizadas
-- [ ] Supabase de desenvolvimento em modo leitura
+- O Builder cria branch, edita dentro do workspace e roda testes/lint/build.
+- Gera diff e relatorio claros antes de qualquer commit.
+- Nenhum commit/push e feito sem aprovacao explicita do usuario.
 
-## Fase 5: Operação autônoma limitada
+**Issue:** https://github.com/IsraelSiq/bastiao/issues/3
 
-- [ ] Fila SQLite
-- [ ] Estados: pendente, planejando, executando, testes, revisão, concluída, bloqueada
-- [ ] Limites de tempo, custo e tentativas
-- [ ] Logs, relatórios e painel de aprovação
+---
 
-## Fase 6: Extras
+## Fase 4: Agente (tarefas + fila) — issue #4
 
-- [ ] Backup automatizado e teste de restauração
+- [ ] Modelo de tarefa (id, descricao, estado, limites, logs)
+- [ ] SQLite para fila de tarefas e historico
+- [ ] Estados: pendente, planejando, executando, testes, revisao, concluida, bloqueada
+- [ ] Limites de tempo, tentativas e escopo por tarefa
+- [ ] Relatorios e painel de aprovacao
+
+**Criterios de aceite:**
+
+- Tarefas sao criadas, persistidas em SQLite e tem estado bem definido.
+- O agente executa dentro dos limites de tempo/escopo e registra logs.
+- Existe relatorio por tarefa e visao geral da fila.
+
+**Issue:** https://github.com/IsraelSiq/bastiao/issues/4
+
+---
+
+## Fase 5: Mundo Externo — issue #5
+
+- [ ] GitHub: leitura de repositorios, issues e PRs (via API)
+- [ ] Pesquisa web com registro de fontes e consultas
+- [ ] Google Drive em pastas autorizadas (leitura)
+- [ ] APIs externas controladas (ex.: Supabase dev) com permissoes explicitas
+
+**Criterios de aceite:**
+
+- O Bastiao consegue consultar GitHub e web e citar fontes nas respostas.
+- Acesso a Drive e APIs externas ocorre apenas em pastas/endpoints autorizados.
+- Todas as chamadas externas tem logs e sao rastreaveis por tarefa.
+
+**Issue:** https://github.com/IsraelSiq/bastiao/issues/5
+
+---
+
+## Fase 6: Bastiao completo — issue #6
+
+- [ ] Voz local (STT/TTS) opcional
+- [ ] Notificacoes e alertas (saude do servidor, falhas de container, disco, GPU)
 - [ ] Monitoramento de CPU, RAM, disco, GPU e temperatura
-- [ ] Voz local: STT e TTS
-- [ ] Integrações domésticas ou notificações, se fizer sentido
+- [ ] Autonomia supervisionada: tarefas recorrentes, relatorios e aprovacao continua
+
+**Criterios de aceite:**
+
+- O Bastiao emite alertas e notificacoes sobre problemas de infraestrutura.
+- Existe painel ou relatorio periodico de saude do servidor.
+- Tarefas recorrentes sao executadas com aprovacao/visao do usuario.
+
+**Issue:** https://github.com/IsraelSiq/bastiao/issues/6
