@@ -6,10 +6,12 @@
 - Usar SSH e Tailscale para acesso remoto privado.
 - Não criar port forwarding para SSH, Open WebUI ou Ollama.
 - Manter Open WebUI com autenticação habilitada.
+- Vincular o Open WebUI somente ao endereço privado Tailscale do host.
 - Não publicar a porta 11434 do Ollama.
 - Não versionar senhas, tokens, chaves, IPs privados, arquivos `.env` ou volumes persistentes.
 - Atualizar Ubuntu, Docker, drivers NVIDIA, imagens e modelos de forma planejada.
-- Fazer backup de documentação, configurações sanitizadas e repositórios importantes.
+- Validar hashes dos backups e testar restauração em diretório temporário antes de mudanças maiores.
+- Seguir o procedimento de [backup e restauração](backup-restauracao.md).
 
 ## Autonomia gradual
 

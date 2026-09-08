@@ -23,7 +23,7 @@ Docker Compose
 | SSH | Administração remota | Rede local/Tailscale | Configuração do sistema |
 | Tailscale | Acesso remoto privado entre dispositivos autorizados | Tailnet | Conta/configuração Tailscale |
 | Docker Compose | Orquestração de containers | Local | Arquivos em `~/bastiao/infra/open-webui` |
-| Open WebUI | Interface, autenticação, conversas e RAG | Porta 3000 | `./data` |
+| Open WebUI | Interface, autenticação, conversas e RAG | `100.84.226.99:3000` (Tailscale) | `./data` |
 | Ollama | API e execução dos modelos locais | Apenas rede Docker | `./ollama` |
 | NVIDIA Container Toolkit | Acesso da GPU aos containers | Interno | Configuração Docker |
 
@@ -37,7 +37,9 @@ Navegador
   -> resposta no Open WebUI
 ```
 
-A porta 11434 do Ollama não deve ser publicada para a LAN ou internet. O Open WebUI acessa o serviço pelo DNS interno Docker: `http://ollama:11434`.
+A porta 11434 do Ollama não deve ser publicada para a LAN ou internet. O Open
+WebUI acessa o serviço pelo DNS interno Docker: `http://ollama:11434`. O Open
+WebUI é vinculado ao IP Tailscale do host, não a todas as interfaces.
 
 ## Arquitetura futura
 

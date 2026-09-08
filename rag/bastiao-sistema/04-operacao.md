@@ -4,6 +4,10 @@
 
 Os arquivos do Compose atual ficam fora deste repositorio, em `~/bastiao/infra/open-webui`. Nao versionar o arquivo real se ele contiver `WEBUI_SECRET_KEY`; use `infra/compose.example.yml` como referencia sanitizada.
 
+O Open WebUI usa o IP Tailscale do host (`100.84.226.99:3000`) e o Ollama
+permanece apenas na rede Docker. O Compose sanitizado usa imagens fixadas por
+digest, health checks e segredo externo.
+
 Entrar no diretorio de infraestrutura:
 
 ```bash
@@ -46,9 +50,9 @@ docker exec -it ollama ollama list
 docker exec -it ollama ollama ps
 ```
 
-## Backup minimo
+## Backup
 
-- Repositorios de codigo devem ter remoto Git configurado.
-- Documentos curados de RAG devem existir fora do volume do Open WebUI.
-- Configuraçªµes sanitizadas ficam neste repositorio GitHub privado.
-- Dados persistentes em `~/bastiao/infra/open-webui/data` e modelos em `~/bastiao/infra/open-webui/ollama` precisam de estrategia de backup antes de mudançªµes maiores.
+Antes de alterar imagens ou Compose, valide o backup por SHA-256 e execute um
+teste de restauracao em diretorio temporario. O procedimento versionado fica em
+`docs/backup-restauracao.md`; o backup validado em 2026-09-08 esta em
+`/home/rael22/bastiao-backup-20260908-214936`.

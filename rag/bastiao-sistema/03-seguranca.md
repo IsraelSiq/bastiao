@@ -7,9 +7,10 @@
 - Nao criar port forwarding para SSH, Open WebUI ou Ollama.
 - Manter Open WebUI com autenticaçª£o habilitada.
 - Nao publicar a porta 11434 do Ollama.
+- Vincular o Open WebUI apenas ao IP Tailscale privado do host.
 - Nao versionar senhas, tokens, chaves, IPs privados, arquivos `.env` ou volumes persistentes.
 - Atualizar Ubuntu, Docker, drivers NVIDIA, imagens e modelos de forma planejada.
-- Fazer backup de documentaçª£o, configuraçªµes sanitizadas e repositorios importantes.
+- Validar hashes dos backups e testar restauracao temporaria antes de mudancas maiores.
 
 ## Autonomia gradual
 

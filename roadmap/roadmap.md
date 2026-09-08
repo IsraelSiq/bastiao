@@ -17,30 +17,30 @@ Este documento descreve as fases de evolucao do Bastiao, da fundacao ate a auton
 
 ---
 
-## Fase 1: Conhecimento (RAG) — issue #1
+## Fase 1: Conhecimento (RAG) — concluida
 
 - [x] Configurar embeddings no Open WebUI com `sentence-transformers/all-MiniLM-L6-v2`
-- [ ] Criar base de conhecimento `Bastiao-Sistema` (documentacao, arquitetura, operacoes, decisoes)
-- [ ] Criar base `Projetos-Ativos` com um projeto-piloto sem segredos
-- [ ] Definir processo de curadoria, versionamento e reindexacao de documentos
+- [x] Criar base de conhecimento `Bastiao-Sistema` (6 documentos)
+- [x] Criar base `Projetos-Ativos` com o projeto-piloto (4 documentos)
+- [x] Definir processo de curadoria, versionamento e reindexacao de documentos
 
 **Criterios de aceite:**
 
-- Conversas no Open WebUI conseguem usar RAG sobre `Bastiao-Sistema`.
-- Documentos curados estao fora do volume do Open WebUI e versionados/backupados.
-- Processo de inclusao/atualizacao de documentos esta documentado.
+- [x] Conversas no Open WebUI usam RAG sobre `Bastiao-Sistema` com fontes.
+- [x] Documentos curados estao fora do volume do Open WebUI e versionados/backupados.
+- [x] Processo de inclusao/atualizacao de documentos esta documentado.
 
 **Issue:** https://github.com/IsraelSiq/bastiao/issues/1
 
 ---
 
-## Fase 2: Explorer — issue #2
+## Fase 2: Explorer — concluida
 
-- [ ] Leitura segura de filesystem (allowlist de paths, sem `.env`, sem segredos)
-- [ ] Integracao Git local em modo leitura (status, log, diff, branches)
-- [ ] Detecao de stack (linguagens, dependencias, comandos de build/teste)
-- [ ] Execucao de testes em modo somente leitura (comandos predefinidos)
-- [ ] Gerar relatorio de arquitetura, dependencias e saude do projeto
+- [x] Leitura segura de filesystem (allowlist de paths, sem `.env`, sem segredos)
+- [x] Integracao Git local em modo leitura (status e log)
+- [x] Detecao de stack e comandos de teste
+- [x] Execucao de testes em modo somente leitura (comandos predefinidos)
+- [x] Gerar relatorio de arquitetura, dependencias e saude do projeto
 
 **Criterios de aceite:**
 

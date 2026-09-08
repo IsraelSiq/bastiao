@@ -81,9 +81,10 @@ docker exec -it ollama ollama list
 docker exec -it ollama ollama ps
 ```
 
-## Backup mínimo
+## Backup
 
-- Repositórios de código devem ter remoto Git configurado.
-- Documentos curados de RAG devem existir fora do volume do Open WebUI.
-- Configurações sanitizadas ficam neste repositório GitHub privado.
-- Dados persistentes em `~/bastiao/infra/open-webui/data` e modelos em `~/bastiao/infra/open-webui/ollama` precisam de estratégia de backup antes de mudanças maiores.
+O backup verificado cobre os dados persistentes do Open WebUI, modelos Ollama,
+projetos locais e documentação operacional. Antes de atualizações ou alterações
+de Compose, crie um backup e confirme os hashes. O procedimento completo,
+incluindo teste de restauração e rollback, está em
+[Backup e restauração](backup-restauracao.md).
