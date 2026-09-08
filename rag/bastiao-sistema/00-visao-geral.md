@@ -27,11 +27,13 @@ O Bastiao e um servidor pessoal de IA local, operado 24/7 em casa, acessivel rem
 - Open WebUI (porta 3000, com autenticaçª£o)
 - Ollama (API apenas na rede Docker)
 - GPU NVIDIA GTX 1660 Ti (6 GB VRAM) com NVIDIA Container Toolkit
-- Modelos: `qwen3:8b` (Core), `qwen2.5-coder:7b` (Dev), `llama3.2:3b` (rapido), `nomic-embed-text:latest` (embeddings)
+- Modelos: `qwen3:8b` (Core), `qwen2.5-coder:7b` (Dev), `llama3.2:3b` (rapido)
+- Embeddings do RAG: `sentence-transformers/all-MiniLM-L6-v2` no Open WebUI.
+- `nomic-embed-text:latest` permanece instalado no Ollama como alternativa.
 
 ## Pr oximos passos
 
-- Configurar RAG com `nomic-embed-text:latest` no Open WebUI.
+- O provider ativo do RAG ja esta configurado como `sentence-transformers/all-MiniLM-L6-v2`.
 - Criar base de conhecimento `Bastiao-Sistema` (esta pasta).
 - Escolher um projeto-piloto para `Projetos-Ativos`.
 - Implementar Bastiao Explorer (leitura segura de repositorios).

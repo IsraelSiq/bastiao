@@ -16,7 +16,8 @@ Modelos iniciais:
 - `qwen3:8b` como modelo Core.
 - `qwen2.5-coder:7b` como especialista em desenvolvimento.
 - `llama3.2:3b` para tarefas rápidas.
-- `nomic-embed-text:latest` para embeddings/RAG.
+- `sentence-transformers/all-MiniLM-L6-v2` no Open WebUI para embeddings/RAG.
+- `nomic-embed-text:latest` permanece instalado no Ollama como alternativa, mas nao e usado pelo provider atual.
 
 A GPU NVIDIA GTX 1660 Ti será disponibilizada ao container Ollama via NVIDIA Container Toolkit.
 

@@ -8,14 +8,33 @@ Dar ao Bastião Core ferramentas explícitas para entender projetos, consultar m
 
 ## Versão 0.1
 
-O Explorer deve operar em modo somente leitura:
+O Explorer opera em modo somente leitura e já tem uma implementação inicial em `agente/explorer.py`.
+
+Funcionalidades atuais:
 
 - listar arquivos permitidos;
-- ler documentação e arquivos de projeto;
-- identificar stack e comandos;
-- consultar Git local e GitHub em leitura;
+- bloquear acesso a caminhos sensíveis (`.env`, segredos, artefatos locais e diretórios de dados);
+- ler apenas arquivos dentro do workspace permitido;
+- identificar stack e comandos de teste mais prováveis;
+- consultar Git local em modo leitura;
+- consultar metadados, issues e pull requests do GitHub em modo leitura via `gh`;
 - executar testes predefinidos sem editar código;
-- gerar relatório.
+- gerar relatório legível em terminal ou JSON.
+
+Os comandos executáveis devem ser declarados em `.bastiao/explorer-policy.json`.
+Sem essa política, o Explorer apenas detecta possíveis comandos e não executa nenhum.
+
+A consulta GitHub é opcional e deve ser solicitada com `--github`. Ela exige que o
+`gh` esteja instalado e autenticado, mas usa somente `gh repo view`, `gh issue list`
+e `gh pr list`; falhas de autenticação ou conectividade são reportadas sem
+interromper a análise local.
+
+Próximos refinamentos planejados:
+
+- integração GitHub em leitura;
+- allowlist por projeto e por política;
+- execução segura de testes com timeout e logs;
+- relatório exportável por tarefa.
 
 ## Versão 0.2
 

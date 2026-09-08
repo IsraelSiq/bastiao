@@ -19,7 +19,7 @@ Este documento descreve as fases de evolucao do Bastiao, da fundacao ate a auton
 
 ## Fase 1: Conhecimento (RAG) — issue #1
 
-- [ ] Configurar embeddings no Open WebUI com `nomic-embed-text:latest`
+- [x] Configurar embeddings no Open WebUI com `sentence-transformers/all-MiniLM-L6-v2`
 - [ ] Criar base de conhecimento `Bastiao-Sistema` (documentacao, arquitetura, operacoes, decisoes)
 - [ ] Criar base `Projetos-Ativos` com um projeto-piloto sem segredos
 - [ ] Definir processo de curadoria, versionamento e reindexacao de documentos

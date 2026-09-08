@@ -20,11 +20,17 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Install test dependencies
+        run: python -m pip install --disable-pip-version-check pytest
+
       - name: Validate JSON
         run: python -m json.tool rag/openwebui-config.json >/dev/null
 
       - name: Validate Python syntax
         run: python -m compileall -q scripts
+
+      - name: Run Explorer tests
+        run: python -m pytest tests/test_explorer.py -q
 
       - name: Validate RAG configuration
         run: python scripts/setup_openwebui.py --repo-root . --skip-ollama --strict

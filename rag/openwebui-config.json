@@ -5,11 +5,13 @@
     "descricao": "Configuracoes recomendadas para o Open WebUI no Bastiao, incluindo bases de conhecimento, embeddings e ajustes gerais."
   },
   "embeddings": {
-    "provider": "Ollama",
-    "base_url": "http://ollama:11434",
-    "modelo": "nomic-embed-text:latest",
-    "dimensoes": 768,
-    "descricao": "Modelo de embeddings para RAG. Nao usar como chat."
+    "provider": "Sentence Transformers",
+    "base_url": "",
+    "modelo": "sentence-transformers/all-MiniLM-L6-v2",
+    "dimensoes": 384,
+    "descricao": "Modelo local usado pelo Open WebUI para embeddings do RAG. Nao usar como chat.",
+    "ollama_alternativo_instalado": "nomic-embed-text:latest",
+    "ollama_alternativo_ativo": false
   },
   "knowledge_bases": [
     {
@@ -60,8 +62,8 @@
         "qwen2.5-coder:7b",
         "llama3.2:3b"
       ],
-      "modelo_embeddings": "nomic-embed-text:latest",
-      "descricao": "qwen3:8b como Core, qwen2.5-coder:7b para codigo, llama3.2:3b para tarefas rapidas."
+      "modelo_embeddings": "sentence-transformers/all-MiniLM-L6-v2",
+      "descricao": "qwen3:8b como Core, qwen2.5-coder:7b para codigo, llama3.2:3b para tarefas rapidas; embeddings locais via Sentence Transformers."
     },
     "rag": {
       "habilitar_rag": true,
@@ -91,7 +93,7 @@
       "3. Vá´´em Knowledge / Knowledge Bases.",
       "4. Crie a base 'Bastiao-Sistema' apontando para /home/rael22/bastiao/rag/bastiao-sistema (ou faca upload dos 6 arquivos .md).",
       "5. Crie a base 'Projetos-Ativos' apontando para /home/rael22/bastiao/rag/projetos-ativos (ou faca upload da pasta).",
-      "6. Em Settings / Embeddings, configure: Provider=Ollama, Base URL=http://ollama:11434, Model=nomic-embed-text:latest.",
+      "6. Em Settings / Embeddings, mantenha Provider=Sentence Transformers e Model=sentence-transformers/all-MiniLM-L6-v2.",
       "7. Reindexe ambas as bases.",
       "8. Em Settings / Models, defina qwen3:8b como modelo padrao e garanta que os modelos listados estao disponiveis.",
       "9. Em Settings / General (ou similar), habilite autenticacao e desabilite cadastro publico.",
