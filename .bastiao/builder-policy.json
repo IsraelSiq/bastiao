@@ -1,0 +1,7 @@
+{
+  "test_commands": [
+    "python3 -m pytest -q"
+  ],
+  "lint_commands": [],
+  "build_commands": []
+}

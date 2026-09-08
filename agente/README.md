@@ -36,9 +36,15 @@ Próximos refinamentos planejados:
 - execução segura de testes com timeout e logs;
 - relatório exportável por tarefa.
 
-## Versão 0.2
+## Versão 0.2 — concluída
 
-O Builder poderá criar branch local, editar dentro do workspace, rodar testes/lint/build e gerar diff. Commit, push, PR, deploy ou ações externas continuarão exigindo aprovação humana explícita.
+O Builder cria branch local, edita dentro do workspace, roda testes/lint/build
+predefinidos e gera diff. Commit e push exigem aprovação humana explícita; PR,
+deploy e ações externas continuam fora do escopo.
+
+O Builder v0.1 está implementado em `agente/builder.py`. Consulte
+[`docs/builder.md`](../docs/builder.md) para a política, a raiz de workspaces e
+os limites de aprovação.
 
 ## Limites técnicos
 
