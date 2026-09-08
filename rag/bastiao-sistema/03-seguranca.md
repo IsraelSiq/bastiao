@@ -28,3 +28,8 @@ O executor só chama ferramentas versionadas e registradas. Hoje ele permite
 somente leitura segura de arquivos e Git `status`/`log`, em processo isolado
 com timeout, auditoria e escopo de tarefa/workspace. Não há shell, Docker,
 rede, Git de escrita ou API externa no executor.
+
+O Task Engine limita concorrência por Worker, encerra chamadas canceladas ou
+expiradas e verifica espaço livre. Em Linux, o processo filho também recebe
+limites de CPU e memória; decisões de aprovação são persistidas pelo painel
+local de terminal com escopo e expiração.

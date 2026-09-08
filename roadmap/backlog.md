@@ -5,13 +5,14 @@
 - Validar periodicamente as bases RAG e suas fontes.
 - Revisar a política de comandos permitidos do Explorer por projeto.
 - Revisar a política de comandos permitidos do Builder por projeto.
-- Concluir limites de recursos, cancelamento ativo e interface de aprovação da fila.
+- Reindexar e validar as bases RAG após atualizações documentais.
 
 ## Prioridade média
 
 - Integrar GitHub em modo leitura.
 - Implementar pesquisa web com fontes.
 - Automatizar backup com retenção e destino externo.
+- Evoluir o painel local de tarefas para interface autenticada, se necessário.
 
 ## Ideias futuras
 

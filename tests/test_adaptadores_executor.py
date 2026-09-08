@@ -2,6 +2,7 @@ from pathlib import Path
 from subprocess import run
 
 import pytest
+from threading import Thread
 from time import sleep
 
 from agente.adaptadores import git_readonly, read_workspace_file
@@ -83,3 +84,14 @@ def test_executor_terminates_handler_at_task_timeout(tmp_path: Path):
     with pytest.raises(TimeoutError):
         executor.execute("task-1", ToolCall("slow", "1", {"path": "README.md"}))
     assert store.reports("task-1")[0]["report_type"] == "tool_timeout"
+
+
+def test_executor_rejects_task_without_required_free_disk(tmp_path: Path):
+    store = task_store(tmp_path)
+    with store._connect() as connection:
+        connection.execute("UPDATE tasks SET min_free_disk_bytes = ? WHERE task_id = 'task-1'", (10**18,))
+    registry = ToolRegistry()
+    registry.register(ToolDefinition("read-file", "1", "Read allowed file", Action.READ, {"path": str}, read_workspace_file))
+    with pytest.raises(RuntimeError, match="espaco livre"):
+        ToolExecutor(registry, store, AuditLog(tmp_path / "audit.jsonl")).execute("task-1", ToolCall("read-file", "1", {"path": "README.md"}))
+    assert store.reports("task-1")[0]["report_type"] == "resource_denied"

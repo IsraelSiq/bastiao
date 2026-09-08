@@ -70,7 +70,7 @@ Este documento descreve as fases de evolucao do Bastiao, da fundacao ate a auton
 
 ---
 
-## Fase 4: Agente (tarefas + fila) — issue #4
+## Fase 4: Agente (tarefas + fila) — concluida
 
 - [x] Modelo de tarefa (id, descricao, estado, limites, logs)
 - [x] SQLite para fila de tarefas e historico
@@ -84,9 +84,11 @@ Este documento descreve as fases de evolucao do Bastiao, da fundacao ate a auton
 - [x] O agente executa ferramentas registradas dentro do timeout/escopo e registra logs.
 - [x] Existe relatorio por tarefa e visao geral local da fila.
 
-Limites atuais: o worker processa uma chamada por vez, nao realiza repeticao
-automatica e nao oferece interface web de aprovacao. Essas evolucoes permanecem
-nas subtarefas da Fase 4 antes do fechamento da issue principal.
+O painel local de terminal registra aprovações com escopo e expiração; não é um
+serviço web. O Worker não realiza repetição automática e a concorrência é
+explícita/configurável, limitada a uma tarefa por padrão. Limites de memória e
+CPU são aplicados em hosts POSIX; o timeout e a verificação de disco são
+portáveis.
 
 **Issue:** https://github.com/IsraelSiq/bastiao/issues/4
 

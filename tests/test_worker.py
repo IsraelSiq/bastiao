@@ -1,4 +1,6 @@
 from pathlib import Path
+from threading import Thread
+from time import sleep
 
 import pytest
 
@@ -64,3 +66,53 @@ def test_worker_executes_once_and_never_replays_automatically(tmp_path: Path):
 
     assert result["content"] == "safe"
     assert store.get_task("task-1").state is TaskState.REVIEW
+
+
+def slow_read(workspace: str, path: str) -> dict[str, str]:
+    sleep(1.2)
+    return {"path": path}
+
+
+def test_worker_cancels_an_active_tool_call(tmp_path: Path):
+    store, worker = prepare(tmp_path)
+    workspace = Path(store.get_task("task-1").workspace)
+    workspace.mkdir()
+    registry = ToolRegistry()
+    registry.register(ToolDefinition("slow-read", "1", "Slow read", Action.READ, {"path": str}, slow_read))
+    executor = ToolExecutor(registry, store, AuditLog(tmp_path / "audit.jsonl"))
+    errors: list[BaseException] = []
+
+    def run_task() -> None:
+        try:
+            worker.execute_once("task-1", executor, ToolCall("slow-read", "1", {"path": "README.md"}))
+        except BaseException as error:
+            errors.append(error)
+
+    thread = Thread(target=run_task)
+    thread.start()
+    sleep(0.2)
+    assert worker.cancel("task-1").state is TaskState.CANCELLED
+    thread.join(timeout=5)
+
+    assert not thread.is_alive()
+    assert isinstance(errors[0], InterruptedError)
+
+
+def test_worker_enforces_configured_concurrency(tmp_path: Path):
+    store, worker = prepare(tmp_path)
+    workspace = Path(store.get_task("task-1").workspace)
+    workspace.mkdir()
+    store.create_task("task-2", "Second task", tmp_path / "workspace-2")
+    store.transition("task-2", TaskState.PLANNING)
+    store.transition("task-2", TaskState.AWAITING_APPROVAL)
+    registry = ToolRegistry()
+    registry.register(ToolDefinition("slow-read", "1", "Slow read", Action.READ, {"path": str}, slow_read))
+    executor = ToolExecutor(registry, store, AuditLog(tmp_path / "audit.jsonl"))
+    thread = Thread(target=lambda: worker.execute_once("task-1", executor, ToolCall("slow-read", "1", {"path": "README.md"})))
+    thread.start()
+    sleep(0.2)
+
+    with pytest.raises(RuntimeError, match="concorrencia"):
+        worker.execute_once("task-2", executor, ToolCall("slow-read", "1", {"path": "README.md"}))
+
+    thread.join(timeout=5)

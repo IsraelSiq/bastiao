@@ -40,10 +40,13 @@ O Bastiao e um servidor pessoal de IA local, operado 24/7 em casa, acessivel rem
   e executor de ferramentas registradas já existem no repositório.
 - As ferramentas atualmente integradas ao executor são leitura segura de
   arquivos e Git `status`/`log`; não há shell, Docker, rede ou APIs externas.
+- O Task Engine aplica timeout interruptível, cancelamento ativo, concorrência
+  configurável, verificação de disco e limites POSIX de CPU/memória.
+- O painel local de terminal exibe fila/relatórios e registra aprovações
+  explícitas com escopo e expiração.
 
 ## Próximos passos
 
-- Concluir quotas de recursos, cancelamento ativo, concorrência controlada e a
-  interface humana de aprovação da Fase 4.
 - Reindexar esta base após atualizações documentais e validar uma resposta com
   fontes no Open WebUI.
+- Automatizar backup externo com retenção, hashes e monitoramento de espaço.

@@ -22,5 +22,34 @@ mas não aprovam nem executam operações. Valores associados a `secret`, `token
 persistidos.
 
 O banco não deve conter conteúdo de arquivos, saídas completas de ferramentas
-ou segredos. A interface humana de aprovação, concorrência configurável,
-cancelamento ativo e quotas de CPU/RAM/disco continuam pendentes.
+ou segredos. O Worker recebe `max_concurrency`; o padrão é uma tarefa por vez.
+O executor verifica espaço livre antes da chamada, aplica limite de memória e
+CPU em hosts POSIX e encerra o processo filho ao receber cancelamento ou atingir
+o timeout. Em Windows, a quota de memória/CPU depende do limite de timeout,
+pois `resource` não está disponível.
+
+## Painel local
+
+`scripts/painel_tarefas.py` é uma interface de terminal para o operador local
+consultar fila, inspecionar tarefa, registrar aprovação com expiração ou
+cancelar uma tarefa. Ela requer os caminhos explícitos do banco e do log de
+auditoria, ambos fora do repositório:
+
+```bash
+python3 scripts/painel_tarefas.py \
+  --database ~/.local/state/bastiao/tasks.sqlite \
+  --audit-log ~/.local/state/bastiao/audit.jsonl queue
+```
+
+Registrar uma aprovação de edição por dez minutos:
+
+```bash
+python3 scripts/painel_tarefas.py \
+  --database ~/.local/state/bastiao/tasks.sqlite \
+  --audit-log ~/.local/state/bastiao/audit.jsonl \
+  approve TASK_ID --action edit --approved-by OPERADOR --expires-in-minutes 10
+```
+
+O painel não é um serviço web e não inicia execução de tarefas: ele apenas
+persiste decisões explícitas do operador local. Proteja o banco e o log pelo
+usuário do sistema que opera o Bastião.
