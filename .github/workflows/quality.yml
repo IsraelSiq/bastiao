@@ -32,6 +32,9 @@ jobs:
       - name: Run Explorer tests
         run: python -m pytest tests/test_explorer.py -q
 
+      - name: Run diagnostic tests
+        run: python -m pytest tests/test_diagnostico_operacional.py -q
+
       - name: Validate RAG configuration
         run: python scripts/setup_openwebui.py --repo-root . --skip-ollama --strict
 

@@ -73,13 +73,14 @@ diretórios persistentes durante um rollback.
 ## Diagnóstico
 
 ```bash
-uptime
-free -h
-df -h /
-nvidia-smi
-docker exec -it ollama ollama list
-docker exec -it ollama ollama ps
+cd ~/bastiao
+python3 scripts/diagnostico_operacional.py --repo-root .
 ```
+
+O diagnóstico é somente leitura. Ele verifica sistema, Docker, containers,
+modelos Ollama, GPU, endpoint de saúde via Tailscale, diretórios persistentes e
+o backup mais recente. Para consumo automatizado, use `--json`; para uma rede
+sem Tailscale, informe `--open-webui-url http://ENDERECO:3000/health`.
 
 ## Backup
 
