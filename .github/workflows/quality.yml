@@ -41,6 +41,9 @@ jobs:
       - name: Run Builder tests
         run: python -m pytest tests/test_builder.py -q
 
+      - name: Run task engine tests
+        run: python -m pytest tests/test_tarefas.py -q
+
       - name: Validate RAG configuration
         run: python scripts/setup_openwebui.py --repo-root . --skip-ollama --strict
 
