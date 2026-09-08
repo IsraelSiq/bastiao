@@ -4,7 +4,7 @@
 
 - Validar periodicamente as bases RAG e suas fontes.
 - Revisar a política de comandos permitidos do Explorer por projeto.
-- Implementar Bastião Builder v0.1 com workspace isolado.
+- Revisar a política de comandos permitidos do Builder por projeto.
 
 ## Prioridade média
 

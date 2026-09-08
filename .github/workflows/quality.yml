@@ -38,6 +38,9 @@ jobs:
       - name: Run authorization tests
         run: python -m pytest tests/test_autorizacao.py -q
 
+      - name: Run Builder tests
+        run: python -m pytest tests/test_builder.py -q
+
       - name: Validate RAG configuration
         run: python scripts/setup_openwebui.py --repo-root . --skip-ollama --strict
 

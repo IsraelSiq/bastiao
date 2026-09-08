@@ -52,19 +52,19 @@ Este documento descreve as fases de evolucao do Bastiao, da fundacao ate a auton
 
 ---
 
-## Fase 3: Builder — issue #3
+## Fase 3: Builder — concluida
 
-- [ ] Criar branch local por tarefa
-- [ ] Edicao restrita ao workspace permitido
-- [ ] Executar testes, lint e build predefinidos
-- [ ] Gerar diff estruturado e relatorio de mudancas
-- [ ] Exigir aprovacao humana antes de commit/push
+- [x] Criar branch local por tarefa
+- [x] Edicao restrita ao workspace permitido
+- [x] Executar testes, lint e build predefinidos
+- [x] Gerar diff estruturado e relatorio de mudancas
+- [x] Exigir aprovacao humana antes de commit/push
 
 **Criterios de aceite:**
 
-- O Builder cria branch, edita dentro do workspace e roda testes/lint/build.
-- Gera diff e relatorio claros antes de qualquer commit.
-- Nenhum commit/push e feito sem aprovacao explicita do usuario.
+- [x] O Builder cria branch, edita dentro do workspace e roda testes/lint/build.
+- [x] Gera diff e relatorio claros antes de qualquer commit.
+- [x] Nenhum commit/push e feito sem aprovacao explicita do usuario.
 
 **Issue:** https://github.com/IsraelSiq/bastiao/issues/3
 
