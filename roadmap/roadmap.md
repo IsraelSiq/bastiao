@@ -72,17 +72,21 @@ Este documento descreve as fases de evolucao do Bastiao, da fundacao ate a auton
 
 ## Fase 4: Agente (tarefas + fila) — issue #4
 
-- [ ] Modelo de tarefa (id, descricao, estado, limites, logs)
-- [ ] SQLite para fila de tarefas e historico
-- [ ] Estados: pendente, planejando, executando, testes, revisao, concluida, bloqueada
-- [ ] Limites de tempo, tentativas e escopo por tarefa
-- [ ] Relatorios e painel de aprovacao
+- [x] Modelo de tarefa (id, descricao, estado, limites, logs)
+- [x] SQLite para fila de tarefas e historico
+- [x] Estados: pendente, planejando, executando, testes, revisao, concluida, bloqueada
+- [x] Limites de tempo, tentativas e escopo por tarefa
+- [x] Relatorios e visao local de aprovacoes
 
 **Criterios de aceite:**
 
-- Tarefas sao criadas, persistidas em SQLite e tem estado bem definido.
-- O agente executa dentro dos limites de tempo/escopo e registra logs.
-- Existe relatorio por tarefa e visao geral da fila.
+- [x] Tarefas sao criadas, persistidas em SQLite e tem estado bem definido.
+- [x] O agente executa ferramentas registradas dentro do timeout/escopo e registra logs.
+- [x] Existe relatorio por tarefa e visao geral local da fila.
+
+Limites atuais: o worker processa uma chamada por vez, nao realiza repeticao
+automatica e nao oferece interface web de aprovacao. Essas evolucoes permanecem
+nas subtarefas da Fase 4 antes do fechamento da issue principal.
 
 **Issue:** https://github.com/IsraelSiq/bastiao/issues/4
 

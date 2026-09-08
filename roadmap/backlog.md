@@ -5,6 +5,7 @@
 - Validar periodicamente as bases RAG e suas fontes.
 - Revisar a política de comandos permitidos do Explorer por projeto.
 - Revisar a política de comandos permitidos do Builder por projeto.
+- Concluir limites de recursos, cancelamento ativo e interface de aprovação da fila.
 
 ## Prioridade média
 

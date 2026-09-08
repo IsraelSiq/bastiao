@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 from agente.autorizacao import TaskState
+from agente.executor import ToolExecutor
+from agente.ferramentas import ToolCall
 from agente.tarefas import Task, TaskStore
 
 
@@ -48,3 +50,17 @@ class TaskWorker:
             for task in self.task_store.list_tasks(state):
                 recovered.append(self.task_store.transition(task.task_id, TaskState.BLOCKED))
         return recovered
+
+    def execute_once(self, task_id: str, executor: ToolExecutor, call: ToolCall) -> dict:
+        """Executa uma chamada única; novas tentativas exigem novo início explícito."""
+        self.begin(task_id)
+        try:
+            result = executor.execute(task_id, call)
+        except TimeoutError:
+            self.task_store.transition(task_id, TaskState.BLOCKED)
+            raise
+        except (FileNotFoundError, PermissionError, RuntimeError, OSError):
+            self.fail(task_id)
+            raise
+        self.succeed(task_id)
+        return result
