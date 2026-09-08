@@ -1,0 +1,35 @@
+# Bastiao – Decisoes
+
+## ADR-001: Arquitetura inicial local-first
+
+- **Status:** aceito
+- **Data:** 2026-09-07
+
+### Contexto
+
+O projeto Bastiao precisa executar modelos locais, ser acessivel remotamente sem exposiçª£o publica direta e crescer para RAG, programaçª£o assistida e automaçª£o supervisionada.
+
+### Decisao
+
+Adotar Ubuntu Server 26.04 LTS como host, Tailscale para acesso remoto privado, Docker Compose para serviçªµs, Ollama para execucao de modelos locais e Open WebUI como interface.
+
+Modelos iniciais:
+
+- `qwen3:8b` como modelo Core.
+- `qwen2.5-coder:7b` como especialista em desenvolvimento.
+- `llama3.2:3b` para tarefas rapidas.
+- `nomic-embed-text:latest` para embeddings/RAG.
+
+A GPU NVIDIA GTX 1660 Ti sera disponibilizada ao container Ollama via NVIDIA Container Toolkit.
+
+### Consequencias
+
+- Modelos e dados permanecem no host quando nao e necessaria uma integraçª£o externa.
+- A API do Ollama permanece apenas na rede Docker.
+- Open WebUI e acessado pela porta 3000 em rede privada.
+- A automaçª£o futura deve operar em workspaces isolados, com Git, testes e revisao humana antes de commit/push.
+- O repositorio GitHub contem somente documentaçª£o e exemplos sanitizados.
+
+## Outras decisoes
+
+Novas decisoes arquiteturais e operacionais serao registradas como ADRs em `docs/decisoes/` e resumidas aqui quando fizer sentido para o RAG.
