@@ -15,6 +15,7 @@
     {
       "nome": "Bastiao-Sistema",
       "descricao": "Documentacao curada sobre o Bastiao: visao geral, arquitetura, modelos, seguranca, operacao e decisoes.",
+      "caminho_relativo": "rag/bastiao-sistema",
       "caminho_servidor": "/home/rael22/bastiao/rag/bastiao-sistema",
       "arquivos": [
         "00-visao-geral.md",
@@ -30,6 +31,7 @@
     {
       "nome": "Projetos-Ativos",
       "descricao": "Documentacao curada dos projetos ativos, usada para RAG contextual por projeto.",
+      "caminho_relativo": "rag/projetos-ativos",
       "caminho_servidor": "/home/rael22/bastiao/rag/projetos-ativos",
       "projetos": [
         {
