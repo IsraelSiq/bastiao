@@ -3,14 +3,16 @@
 from __future__ import annotations
 
 import sqlite3
+import re
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 
-from agente.autorizacao import AuditLog, TaskState, transition_allowed, utc_now
+from agente.autorizacao import Approval, AuditLog, TaskState, transition_allowed, utc_now
 from agente.builder import TASK_ID_PATTERN
 
 SCHEMA_VERSION = 1
+SENSITIVE_VALUE = re.compile(r"(?i)\b(secret|token|password|api[_-]?key)\b(\s*[:=]\s*)([^\s,;]+)")
 
 
 @dataclass(frozen=True)
@@ -89,7 +91,7 @@ class TaskStore:
         with self._connect() as connection:
             connection.execute(
                 "INSERT INTO tasks VALUES (?, ?, ?, ?, ?, ?, 0, ?, ?)",
-                (task_id, description, str(workspace.resolve()), TaskState.PENDING, timeout_seconds, max_attempts, now, now),
+                (task_id, self._redact(description), str(workspace.resolve()), TaskState.PENDING, timeout_seconds, max_attempts, now, now),
             )
             self._event(connection, task_id, "created", "task created", now)
         self.audit_log.append("task_created", task_id, "persistent task created")
@@ -151,6 +153,62 @@ class TaskStore:
             events = [dict(row) for row in connection.execute("SELECT event_type, detail, created_at FROM task_events WHERE task_id = ? ORDER BY event_id", (task_id,))]
         return {"task": task, "events": events}
 
+    def add_report(self, task_id: str, report_type: str, summary: str) -> None:
+        if not report_type.strip() or not summary.strip():
+            raise ValueError("relatorio requer tipo e resumo")
+        self.get_task(task_id)
+        now = utc_now().isoformat()
+        with self._connect() as connection:
+            connection.execute(
+                "INSERT INTO task_reports(task_id, report_type, summary, created_at) VALUES (?, ?, ?, ?)",
+                (task_id, report_type, self._redact(summary), now),
+            )
+            self._event(connection, task_id, "report_added", f"type={report_type}", now)
+
+    def approvals(self, task_id: str) -> list[dict[str, str]]:
+        with self._connect() as connection:
+            rows = connection.execute(
+                "SELECT action, workspace, approved_by, expires_at, created_at FROM task_approvals WHERE task_id = ? ORDER BY approval_id",
+                (task_id,),
+            ).fetchall()
+        return [dict(row) for row in rows]
+
+    def add_approval(self, approval: Approval) -> None:
+        self.get_task(approval.task_id)
+        now = utc_now().isoformat()
+        with self._connect() as connection:
+            connection.execute(
+                "INSERT INTO task_approvals(task_id, action, workspace, approved_by, expires_at, created_at) VALUES (?, ?, ?, ?, ?, ?)",
+                (
+                    approval.task_id,
+                    str(approval.action),
+                    str(approval.workspace.resolve()),
+                    approval.approved_by,
+                    approval.expires_at.isoformat(),
+                    now,
+                ),
+            )
+            self._event(connection, approval.task_id, "approval_recorded", f"action={approval.action}", now)
+        self.audit_log.append("task_approval_recorded", approval.task_id, f"action={approval.action}")
+
+    def reports(self, task_id: str) -> list[dict[str, str]]:
+        with self._connect() as connection:
+            rows = connection.execute(
+                "SELECT report_type, summary, created_at FROM task_reports WHERE task_id = ? ORDER BY report_id",
+                (task_id,),
+            ).fetchall()
+        return [dict(row) for row in rows]
+
+    def queue_view(self) -> list[dict[str, object]]:
+        return [
+            {
+                "task": task,
+                "approvals": self.approvals(task.task_id),
+                "reports": self.reports(task.task_id),
+            }
+            for task in self.list_tasks()
+        ]
+
     def _connect(self) -> sqlite3.Connection:
         connection = sqlite3.connect(self.database_path)
         connection.row_factory = sqlite3.Row
@@ -166,3 +224,7 @@ class TaskStore:
         values = dict(row)
         values["state"] = TaskState(values["state"])
         return Task(**values)
+
+    @staticmethod
+    def _redact(text: str) -> str:
+        return SENSITIVE_VALUE.sub(r"\1\2[REDACTED]", text)

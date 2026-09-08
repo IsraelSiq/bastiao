@@ -50,6 +50,9 @@ jobs:
       - name: Run tool registry tests
         run: python -m pytest tests/test_ferramentas.py -q
 
+      - name: Run tool adapters and executor tests
+        run: python -m pytest tests/test_adaptadores_executor.py -q
+
       - name: Validate RAG configuration
         run: python scripts/setup_openwebui.py --repo-root . --skip-ollama --strict
 

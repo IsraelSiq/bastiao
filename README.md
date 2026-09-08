@@ -38,6 +38,8 @@ Operar um servidor doméstico 24/7, acessível remotamente por rede privada, com
 - [Fila de tarefas](docs/tarefas.md)
 - [Worker de tarefas](docs/worker.md)
 - [Contrato de ferramentas](docs/ferramentas.md)
+- [Adaptadores e executor seguro](docs/executor.md)
+- [Fila, relatórios e aprovações](docs/tarefas.md)
 - [Roadmap](roadmap/roadmap.md)
 - [Backlog](roadmap/backlog.md)
 
