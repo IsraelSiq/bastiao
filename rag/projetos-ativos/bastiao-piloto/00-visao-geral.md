@@ -13,8 +13,8 @@
 - Linguagem: Python 3.11+
 - Framework: FastAPI
 - Testes: pytest
-- Lint: ruff (ou flake8)
-- Gerencia de dependencias: `requirements.txt` (futuro: `pyproject.toml` + `uv`/`pip`)
+- Lint: ruff
+- Gerencia de dependencias: `requirements.txt`
 - Opcional: Docker com `Dockerfile` simples
 
 ## Criterios
@@ -24,9 +24,10 @@
 - README simples e direto.
 - Pequeno o suficiente para ser entendido rapidamente, mas realista.
 
-## Proximos passos
+## Estado atual
 
-- Implementar endpoint basico `/` e `/health`.
-- Adicionar testes minimos.
-- Configurar lint e testes de forma reprodutivel.
-- Usar este projeto para validar o Explorer e o Builder.
+- Endpoints `/` e `/health` implementados.
+- Testes minimos implementados em `tests/test_main.py`.
+- Dependencias fixadas em `requirements.txt`.
+- Lint configurado com Ruff.
+- O projeto esta pronto para validar o Explorer e o Builder.

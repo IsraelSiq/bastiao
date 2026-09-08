@@ -1,6 +1,6 @@
-# bastiao-piloto – Arquitetura
+# bastiao-piloto - Arquitetura
 
-## Estrutura de diretories
+## Estrutura de diretorios
 
 ```text
 bastiao-piloto/
@@ -12,7 +12,7 @@ bastiao-piloto/
   tests/
     __init__.py
     test_main.py
-  Dockerfile          # opcional
+  Dockerfile
   .gitignore
 ```
 
@@ -28,14 +28,14 @@ bastiao-piloto/
   - `fastapi`
   - `uvicorn`
   - `pytest`
-  - `ruff` (ou `flake8`)
+  - `ruff`
 
 ## Dependencias principais
 
 - FastAPI: framework web.
 - Uvicorn: servidor ASGI.
 - pytest: testes.
-- ruff/flake8: lint.
+- Ruff: lint.
 
 ## Evolucao futura
 
