@@ -107,6 +107,11 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="mantido para uso em CI; falhas de validacao sempre retornam codigo nao-zero",
     )
+    parser.add_argument(
+        "--skip-ollama",
+        action="store_true",
+        help="valida arquivos e configuracao sem exigir Docker/Ollama",
+    )
     return parser.parse_args()
 
 
@@ -195,7 +200,9 @@ def main() -> int:
     print(f"Base URL: {base_url}")
     print(f"Modelo: {modelo_emb}")
 
-    if not modelo_emb:
+    if args.skip_ollama:
+        print("[INFO] Consulta ao Ollama ignorada (modo sem Docker).")
+    elif not modelo_emb:
         print("[!] Modelo de embeddings nao configurado.")
         validation_failed = True
     else:

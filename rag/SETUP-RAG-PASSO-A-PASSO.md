@@ -70,6 +70,13 @@ O caminho do repositório também pode ser informado por `BASTIAO_REPO_ROOT`.
 O arquivo JSON usa caminhos relativos para funcionar em qualquer checkout; o
 caminho absoluto documentado continua disponível como referência operacional.
 
+Em CI ou em uma máquina sem Docker/Ollama, valide os arquivos e a configuração
+sem consultar o modelo de embeddings:
+
+```bash
+python3 scripts/setup_openwebui.py --repo-root . --skip-ollama --strict
+```
+
 ---
 
 ## 3. Instalar o modelo de embeddings (se necessario)
