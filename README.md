@@ -32,6 +32,7 @@ Operar um servidor doméstico 24/7, acessível remotamente por rede privada, com
 - [Modelos](docs/modelos.md)
 - [Segurança](docs/seguranca.md)
 - [Operação](docs/operacao.md)
+- [Backup e restauração](docs/backup-restauracao.md)
 - [Roadmap](roadmap/roadmap.md)
 - [Backlog](roadmap/backlog.md)
 
