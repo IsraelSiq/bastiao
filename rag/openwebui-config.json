@@ -1,0 +1,111 @@
+{
+  "openwebui": {
+    "versao_recomendada": "0.5.x ou superior",
+    "idioma": "pt-BR",
+    "descricao": "Configuracoes recomendadas para o Open WebUI no Bastiao, incluindo bases de conhecimento, embeddings e ajustes gerais."
+  },
+  "embeddings": {
+    "provider": "Ollama",
+    "base_url": "http://ollama:11434",
+    "modelo": "nomic-embed-text:latest",
+    "dimensoes": 768,
+    "descricao": "Modelo de embeddings para RAG. Nao usar como chat."
+  },
+  "knowledge_bases": [
+    {
+      "nome": "Bastiao-Sistema",
+      "descricao": "Documentacao curada sobre o Bastiao: visao geral, arquitetura, modelos, seguranca, operacao e decisoes.",
+      "caminho_servidor": "/home/rael22/bastiao/rag/bastiao-sistema",
+      "arquivos": [
+        "00-visao-geral.md",
+        "01-arquitetura.md",
+        "02-modelos.md",
+        "03-seguranca.md",
+        "04-operacao.md",
+        "05-decisoes.md"
+      ],
+      "uso_recomendado": "Conversas sobre arquitetura, operacao, seguranca e decisoes do Bastiao.",
+      "reindexacao": "Reindexar sempre que adicionar ou modificar documentos nesta pasta."
+    },
+    {
+      "nome": "Projetos-Ativos",
+      "descricao": "Documentacao curada dos projetos ativos, usada para RAG contextual por projeto.",
+      "caminho_servidor": "/home/rael22/bastiao/rag/projetos-ativos",
+      "projetos": [
+        {
+          "nome": "bastiao-piloto",
+          "arquivos": [
+            "00-visao-geral.md",
+            "01-arquitetura.md",
+            "02-operacao.md"
+          ]
+        }
+      ],
+      "uso_recomendado": "Conversas sobre projetos em desenvolvimento, com contexto de arquitetura e operacao.",
+      "reindexacao": "Reindexar sempre que adicionar ou modificar documentos de algum projeto."
+    }
+  ],
+  "settings_gerais": {
+    "autenticacao": {
+      "habilitar_autenticacao": true,
+      "permitir_cadastro_publico": false,
+      "descricao": "Manter autenticaçª£o habilitada e cadastro restrito a usuarios conhecidos."
+    },
+    "modelos": {
+      "modelo_padrao": "qwen3:8b",
+      "modelos_disponiveis": [
+        "qwen3:8b",
+        "qwen2.5-coder:7b",
+        "llama3.2:3b"
+      ],
+      "modelo_embeddings": "nomic-embed-text:latest",
+      "descricao": "qwen3:8b como Core, qwen2.5-coder:7b para codigo, llama3.2:3b para tarefas rapidas."
+    },
+    "rag": {
+      "habilitar_rag": true,
+      "bases_padrao": [
+        "Bastiao-Sistema",
+        "Projetos-Ativos"
+      ],
+      "top_k_recomendado": 3,
+      "descricao": "RAG habilitado com as duas bases principais. Ajustar top_k conforme necessidade."
+    },
+    "seguranca": {
+      "nao_expor_api_ollama": true,
+      "porta_openwebui": 3000,
+      "acesso_via_tailscale": true,
+      "descricao": "Ollama apenas na rede Docker. Open WebUI acessado via Tailscale, sem exposiçª£o direta a internet."
+    },
+    "backup": {
+      "diretorio_dados_openwebui": "~/bastiao/infra/open-webui/data",
+      "diretorio_modelos_ollama": "~/bastiao/infra/open-webui/ollama",
+      "recomendacao": "Incluir esses diretorios na estrategia de backup do servidor."
+    }
+  },
+  "instrucoes_configuracao": {
+    "passos": [
+      "1. Acesse o Open WebUI no navegador (via Tailscale, porta 3000).",
+      "2. Faca login como administrador.",
+      "3. Vá´´em Knowledge / Knowledge Bases.",
+      "4. Crie a base 'Bastiao-Sistema' apontando para /home/rael22/bastiao/rag/bastiao-sistema (ou faca upload dos 6 arquivos .md).",
+      "5. Crie a base 'Projetos-Ativos' apontando para /home/rael22/bastiao/rag/projetos-ativos (ou faca upload da pasta).",
+      "6. Em Settings / Embeddings, configure: Provider=Ollama, Base URL=http://ollama:11434, Model=nomic-embed-text:latest.",
+      "7. Reindexe ambas as bases.",
+      "8. Em Settings / Models, defina qwen3:8b como modelo padrao e garanta que os modelos listados estao disponiveis.",
+      "9. Em Settings / General (ou similar), habilite autenticacao e desabilite cadastro publico.",
+      "10. Teste RAG em conversas selecionando as bases e fazendo perguntas sobre o Bastiao e sobre o bastiao-piloto."
+    ],
+    "teste_rag_sugestoes": [
+      "Qual e a arquitetura atual do Bastiao?",
+      "Como funciona a autonomia gradual?",
+      "Quais sao os comandos de diagnostico do servidor?",
+      "Qual e o objetivo do bastiao-piloto?",
+      "Quais sao os comandos para rodar testes e lint no bastiao-piloto?"
+    ]
+  },
+  "notas": {
+    "api_importacao": "O Open WebUI nao possui API oficial de importacao de configuracoes via JSON. Este arquivo serve como documentacao estruturada e base para scripts futuros.",
+    "caminhos": "Ajuste os caminhos (/home/rael22/...) conforme o usuario e estrutura do seu servidor.",
+    "versoes": "Verifique a versao do Open WebUI; nomes de menus e opçªµes podem variar ligeiramente."
+  }
+}
