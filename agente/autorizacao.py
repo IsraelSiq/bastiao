@@ -37,11 +37,11 @@ class TaskState(StrEnum):
 
 ALLOWED_TRANSITIONS: dict[TaskState, set[TaskState]] = {
     TaskState.PENDING: {TaskState.PLANNING, TaskState.CANCELLED},
-    TaskState.PLANNING: {TaskState.AWAITING_APPROVAL, TaskState.BLOCKED, TaskState.FAILED},
+    TaskState.PLANNING: {TaskState.AWAITING_APPROVAL, TaskState.BLOCKED, TaskState.FAILED, TaskState.CANCELLED},
     TaskState.AWAITING_APPROVAL: {TaskState.EXECUTING, TaskState.CANCELLED, TaskState.BLOCKED},
-    TaskState.EXECUTING: {TaskState.TESTING, TaskState.REVIEW, TaskState.BLOCKED, TaskState.FAILED},
-    TaskState.TESTING: {TaskState.REVIEW, TaskState.BLOCKED, TaskState.FAILED},
-    TaskState.REVIEW: {TaskState.AWAITING_APPROVAL, TaskState.COMPLETED, TaskState.BLOCKED},
+    TaskState.EXECUTING: {TaskState.TESTING, TaskState.REVIEW, TaskState.BLOCKED, TaskState.FAILED, TaskState.CANCELLED},
+    TaskState.TESTING: {TaskState.REVIEW, TaskState.BLOCKED, TaskState.FAILED, TaskState.CANCELLED},
+    TaskState.REVIEW: {TaskState.AWAITING_APPROVAL, TaskState.COMPLETED, TaskState.BLOCKED, TaskState.CANCELLED},
     TaskState.BLOCKED: {TaskState.PLANNING, TaskState.CANCELLED},
     TaskState.FAILED: {TaskState.PLANNING, TaskState.CANCELLED},
     TaskState.COMPLETED: set(),

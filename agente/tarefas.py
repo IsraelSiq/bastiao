@@ -109,6 +109,27 @@ class TaskStore:
         self.audit_log.append("task_state_changed", task_id, f"{current}->{target}")
         return self.get_task(task_id)
 
+    def register_attempt(self, task_id: str) -> Task:
+        with self._connect() as connection:
+            row = connection.execute(
+                "SELECT attempts, max_attempts, state FROM tasks WHERE task_id = ?",
+                (task_id,),
+            ).fetchone()
+            if row is None:
+                raise KeyError("tarefa nao encontrada")
+            if TaskState(row["state"]) is not TaskState.EXECUTING:
+                raise ValueError("tentativa requer tarefa em execucao")
+            if row["attempts"] >= row["max_attempts"]:
+                raise ValueError("limite de tentativas atingido")
+            now = utc_now().isoformat()
+            connection.execute(
+                "UPDATE tasks SET attempts = attempts + 1, updated_at = ? WHERE task_id = ?",
+                (now, task_id),
+            )
+            self._event(connection, task_id, "attempt_started", f"attempt={row['attempts'] + 1}", now)
+        self.audit_log.append("task_attempt_started", task_id, f"attempt={row['attempts'] + 1}")
+        return self.get_task(task_id)
+
     def get_task(self, task_id: str) -> Task:
         with self._connect() as connection:
             row = connection.execute("SELECT * FROM tasks WHERE task_id = ?", (task_id,)).fetchone()
