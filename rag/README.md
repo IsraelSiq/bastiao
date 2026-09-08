@@ -42,4 +42,6 @@ Sempre que adicionar ou modificar documentos:
 - `nomic-embed-text:latest` permanece instalado no Ollama como alternativa, mas não é o provider ativo.
 - A base `Projetos-Ativos` existe e inclui a documentacao curada de `bastiao-piloto`.
 - O projeto-piloto possui os endpoints `/` e `/health`, testes pytest e lint Ruff.
+- Explorer, Builder supervisionado, fila SQLite, registro de ferramentas e
+  executor controlado estão documentados no repositório principal.
 - Apos alterar documentos, reindexe a base no Open WebUI.

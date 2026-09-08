@@ -18,11 +18,15 @@
 | Nível | Permitido | Exige confirmação humana |
 |---|---|---|
 | Consulta | RAG, leitura de documentos e pesquisa web | Não, quando a fonte for autorizada |
-| Desenvolvimento | Ler workspace, criar branch local, rodar testes/lint/build | Não, dentro de limites predefinidos |
-| Alteração | Editar no workspace e gerar diff | Sim, antes de commit |
-| Externo | Push, PR, mensagens, deploy, banco, APIs externas e compras | Sim, sempre |
+| Desenvolvimento | Ler workspace e consultas Git somente leitura | Não, dentro da política registrada |
+| Alteração | Criar workspace, editar, testes/lint/build e gerar diff | Sim, com aprovação `edit` válida |
+| Externo | Commit, push, PR, mensagens, deploy, banco, APIs externas e compras | Sim, sempre; commit/push também exigem aprovação específica |
 | Sensível | `sudo`, firewall, Docker, roteador, segredos e produção | Sim, sempre e com revisão detalhada |
 
 ## Ferramentas
 
-Ferramentas e plugins que executam Python/Bash podem executar código no servidor. Instalar somente código revisado e mantê-los restritos ao administrador. O agente próprio deverá usar allowlists, diretório de trabalho fixo, timeouts, logs e validação de caminhos.
+O agente próprio usa contrato versionado, allowlists, diretório de trabalho
+fixo, timeout interruptível, auditoria encadeada e validação de caminhos. O
+executor só invoca ferramentas registradas e, no estado atual, expõe apenas
+leitura de arquivo permitido e Git `status`/`log`. Instalar ferramentas ou
+plugins adicionais exige revisão de código e política antes do registro.

@@ -49,6 +49,14 @@ python3 scripts/diagnostico_operacional.py --repo-root .
 O diagnóstico é somente leitura e verifica sistema, Docker, containers, modelos
 Ollama, GPU, endpoint de saúde via Tailscale, diretórios persistentes e backup.
 
+## Agente local
+
+As bibliotecas do agente são validadas em CI e não são um serviço automático no
+host. O banco SQLite, a auditoria e os workspaces devem ficar fora do
+repositório, em diretórios com permissões restritas. Antes de usar uma versão
+operacional do agente, valide a política de cada projeto e mantenha a
+aprovação humana para escrita, commit e push.
+
 ## Backup
 
 Antes de alterar imagens ou Compose, valide o backup por SHA-256 e execute um

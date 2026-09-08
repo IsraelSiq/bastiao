@@ -12,7 +12,8 @@ Ubuntu Server: Bastiao
 Docker Compose
   |- Open WebUI: interface, usuarios, conversas e RAG
   |- Ollama: inferencia local de LLMs
-  |- Futuro: agente Python, fila SQLite e conectores controlados
+  |- Agente Python: Explorer, Builder e Task Engine
+       |- SQLite, auditoria, registro e executor controlado
 ```
 
 ## Componentes atuais
@@ -23,9 +24,10 @@ Docker Compose
 | SSH | Administracao remota | Rede local / Tailscale | Config do sistema |
 | Tailscale | Acesso remoto privado | Tailnet | Conta/config Tailscale |
 | Docker Compose | Orquestracao de containers | Local | Arquivos em `~/bastiao/infra/open-webui` |
-| Open WebUI | Interface, autenticação, conversas e RAG | Porta 3000 | `./data` |
+| Open WebUI | Interface, autenticação, conversas e RAG | `100.84.226.99:3000` (Tailscale) | `./data` |
 | Ollama | API e execucao de modelos locais | Apenas rede Docker | `./ollama` |
 | NVIDIA Container Toolkit | Acesso da GPU aos containers | Interno | Config Docker |
+| Agente Python | Tarefas, workspaces e ferramentas delimitadas | Local | SQLite e logs fora do repo |
 
 ## Fluxo de conversa
 
@@ -39,7 +41,7 @@ Navegador
 
 A porta 11434 do Ollama **nao** deve ser publicada para LAN ou internet. O Open WebUI acessa o servico pelo DNS interno Docker: `http://ollama:11434`.
 
-## Arquitetura futura
+## Agente local atual
 
 ```text
 Usuario
@@ -49,9 +51,11 @@ Usuario
        |- especialista de codigo (qwen2.5-coder:7b)
        |- Git e workspaces isolados
        |- testes/lint/build predefinidos
-       |- pesquisa web com fontes
-       |- conectores GitHub, Drive e Supabase com permissoes por acao
+       |- registro versionado e schemas estritos
+       |- adaptadores de leitura: arquivos, Git status/log
+       |- executor isolado com timeout
        |- SQLite: tarefas, logs, aprovacoes e relatorios
 ```
 
-O Core planeja e sintetiza. Ferramentas executam operações delimitadas. Nenhum modelo recebe acesso irrestrito ao host, Docker socket, `sudo`, segredos ou producao.
+O Core ainda não chama estas bibliotecas diretamente. Nenhum modelo recebe
+acesso irrestrito ao host, Docker socket, `sudo`, segredos ou produção.

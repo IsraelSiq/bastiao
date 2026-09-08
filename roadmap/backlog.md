@@ -10,7 +10,6 @@
 ## Prioridade média
 
 - Integrar GitHub em modo leitura.
-- Criar fila SQLite e relatórios de tarefa.
 - Implementar pesquisa web com fontes.
 - Automatizar backup com retenção e destino externo.
 

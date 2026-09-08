@@ -8,7 +8,7 @@ O registro descobre ferramentas em ordem estável e resolve exclusivamente a
 combinação exata de nome e versão. Argumentos extras, ausentes ou de tipo
 divergente são recusados antes de qualquer execução.
 
-O registro não chama handlers. O executor seguro será a única camada permitida
-a invocá-los e deverá validar autorização, workspace, timeout, correlação de
-tarefa e auditoria. Não há fallback para shell, Docker, rede ou ferramentas
-não registradas.
+O registro não chama handlers diretamente. `agente/executor.py` é a única
+camada permitida a invocá-los: valida autorização, workspace, timeout,
+correlação de tarefa e auditoria. Não há fallback para shell, Docker, rede ou
+ferramentas não registradas.

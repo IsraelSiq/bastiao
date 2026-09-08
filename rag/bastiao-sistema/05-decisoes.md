@@ -28,7 +28,9 @@ A GPU NVIDIA GTX 1660 Ti sera disponibilizada ao container Ollama via NVIDIA Con
 - Modelos e dados permanecem no host quando nao e necessaria uma integração externa.
 - A API do Ollama permanece apenas na rede Docker.
 - Open WebUI e acessado pela porta 3000 em rede privada.
-- A automação futura deve operar em workspaces isolados, com Git, testes e revisao humana antes de commit/push.
+- A automação local opera em workspaces isolados, com Git, testes e revisão
+  humana antes de commit/push. O executor integrado só expõe leitura segura e
+  Git `status`/`log`; integrações externas continuam futuras.
 - O repositorio GitHub contem somente documentação e exemplos sanitizados.
 
 ## Outras decisoes

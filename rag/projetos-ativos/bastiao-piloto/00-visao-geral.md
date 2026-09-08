@@ -30,4 +30,5 @@
 - Testes minimos implementados em `tests/test_main.py`.
 - Dependencias fixadas em `requirements.txt`.
 - Lint configurado com Ruff.
-- O projeto esta pronto para validar o Explorer e o Builder.
+- O projeto validou Explorer e Builder supervisionado; seu CI próprio cobre
+  pytest, Ruff e verificação do Dockerfile.

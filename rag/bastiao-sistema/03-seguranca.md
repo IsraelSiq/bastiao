@@ -17,11 +17,14 @@
 | Nivel | Permitido | Exige confirmação humana |
 |---|---|---|
 | Consulta | RAG, leitura de documentos e pesquisa web | Nao, quando a fonte for autorizada |
-| Desenvolvimento | Ler workspace, criar branch local, rodar testes/lint/build | Nao, dentro de limites predefinidos |
-| Alteração | Editar no workspace e gerar diff | Sim, antes de commit |
-| Externo | Push, PR, mensagens, deploy, banco, APIs externas e compras | Sim, sempre |
+| Desenvolvimento | Ler workspace e Git status/log | Nao, dentro da politica registrada |
+| Alteração | Criar workspace, editar, testes/lint/build e gerar diff | Sim, com aprovacao `edit` valida |
+| Externo | Commit, push, PR, mensagens, deploy, banco e APIs externas | Sim, sempre; commit/push exigem aprovacao especifica |
 | Sensivel | `sudo`, firewall, Docker, roteador, segredos e producao | Sim, sempre e com revisao detalhada |
 
 ## Ferramentas
 
-Ferramentas e plugins que executam Python/Bash podem executar codigo no servidor. Instalar somente codigo revisado e mante-los restritos ao administrador. O agente proprio devera usar allowlists, diretorio de trabalho fixo, timeouts, logs e validação de caminhos.
+O executor só chama ferramentas versionadas e registradas. Hoje ele permite
+somente leitura segura de arquivos e Git `status`/`log`, em processo isolado
+com timeout, auditoria e escopo de tarefa/workspace. Não há shell, Docker,
+rede, Git de escrita ou API externa no executor.

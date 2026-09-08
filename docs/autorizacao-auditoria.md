@@ -30,8 +30,11 @@ Os logs devem registrar identificação da tarefa, ação, workspace, decisão d
 autorização, início, resultado e falha. Nunca devem registrar valores de
 segredos, conteúdo de `.env` ou chaves privadas.
 
-## Implementação inicial
+## Implementação atual
 
 `agente/autorizacao.py` implementa os estados, validação de aprovação e a
-trilha de auditoria. Esta camada ainda não executa comandos, edita arquivos ou
-acessa GitHub/Docker; essa integração pertence ao Builder após revisão.
+trilha de auditoria. O Builder usa essas aprovações para criar workspaces,
+editar, commitar ou publicar; o executor correlaciona cada chamada ao
+workspace e tarefa persistidos. Ações externas permanecem sem ferramentas
+registradas: não há Docker, rede, APIs externas, pull requests ou shell
+arbitrário.

@@ -12,7 +12,8 @@ Ubuntu Server: Bastião
 Docker Compose
   |- Open WebUI: interface, usuários, conversas e RAG
   |- Ollama: inferência local de LLMs
-  |- Futuro: agente Python, fila SQLite e conectores controlados
+  |- Agente Python: Explorer, Builder e execução controlada
+       |- SQLite: tarefas, eventos, aprovações e relatórios
 ```
 
 ## Componentes atuais
@@ -26,6 +27,7 @@ Docker Compose
 | Open WebUI | Interface, autenticação, conversas e RAG | `100.84.226.99:3000` (Tailscale) | `./data` |
 | Ollama | API e execução dos modelos locais | Apenas rede Docker | `./ollama` |
 | NVIDIA Container Toolkit | Acesso da GPU aos containers | Interno | Configuração Docker |
+| Agente Python | Exploração, Builder, fila e execução delimitada | Local | Banco SQLite e auditoria fora do repositório |
 
 ## Fluxo de conversa
 
@@ -41,7 +43,7 @@ A porta 11434 do Ollama não deve ser publicada para a LAN ou internet. O Open
 WebUI acessa o serviço pelo DNS interno Docker: `http://ollama:11434`. O Open
 WebUI é vinculado ao IP Tailscale do host, não a todas as interfaces.
 
-## Arquitetura futura
+## Arquitetura do agente
 
 ```text
 Usuário
@@ -51,9 +53,14 @@ Usuário
        |- especialista de código (qwen2.5-coder:7b)
        |- Git e workspaces isolados
        |- testes/lint/build predefinidos
-       |- pesquisa web com fontes
-       |- conectores GitHub, Drive e Supabase com permissões por ação
-       |- SQLite: tarefas, logs, aprovações e relatórios
+       |- registro versionado de ferramentas
+       |- adaptadores: leitura de arquivos e Git somente leitura
+       |- executor em processo isolado com timeout
+       |- SQLite: tarefas, eventos, aprovações e relatórios
 ```
 
-O Core planeja e sintetiza. Ferramentas executam operações delimitadas. Nenhum modelo recebe acesso irrestrito ao host, Docker socket, `sudo`, segredos ou produção.
+O Core ainda não está integrado a um modelo de linguagem. As bibliotecas locais
+já impõem contrato de ferramentas, correlação com tarefa/workspace, timeout e
+auditoria. Nenhum modelo recebe acesso irrestrito ao host, Docker socket,
+`sudo`, segredos ou produção. Pesquisa web, GitHub, Drive e Supabase continuam
+fora do executor.

@@ -11,7 +11,7 @@ Operar um servidor doméstico 24/7, acessível remotamente por rede privada, com
 - Ubuntu Server 26.04 LTS
 - Acesso remoto por SSH e Tailscale
 - Docker Engine 29.8.0 e Docker Compose v5.5.1
-- Open WebUI em Docker, publicado na porta 3000 e com autenticação
+- Open WebUI em Docker, autenticado e publicado somente no IP Tailscale do host
 - Ollama em Docker, acessível apenas pela rede interna Docker
 - NVIDIA GeForce GTX 1660 Ti com 6144 MiB de VRAM
 - Driver NVIDIA 595.84 e NVIDIA Container Toolkit
@@ -25,6 +25,15 @@ Operar um servidor doméstico 24/7, acessível remotamente por rede privada, com
 - Automação gradual: leitura e análise antes de escrita; testes e diff antes de commit; confirmação antes de ações externas ou irreversíveis.
 - Segredos nunca entram neste repositório.
 
+## Agente local
+
+As fundações do agente são locais e versionadas: Explorer somente leitura,
+Builder supervisionado, workspaces Git isolados, fila SQLite, registro de
+ferramentas, executor com timeout e relatórios redigidos. As únicas ferramentas
+registradas hoje são leitura segura de arquivos e consultas Git `status`/`log`.
+O agente não possui shell arbitrário, `sudo`, Docker, rede, APIs externas ou
+Git de escrita pelo executor.
+
 ## Documentação
 
 - [Arquitetura](docs/arquitetura.md)
@@ -35,14 +44,14 @@ Operar um servidor doméstico 24/7, acessível remotamente por rede privada, com
 - [Backup e restauração](docs/backup-restauracao.md)
 - [Autorização e auditoria](docs/autorizacao-auditoria.md)
 - [Builder v0.1](docs/builder.md)
-- [Fila de tarefas](docs/tarefas.md)
+- [Fila, relatórios e aprovações](docs/tarefas.md)
 - [Worker de tarefas](docs/worker.md)
 - [Contrato de ferramentas](docs/ferramentas.md)
 - [Adaptadores e executor seguro](docs/executor.md)
-- [Fila, relatórios e aprovações](docs/tarefas.md)
 - [Roadmap](roadmap/roadmap.md)
 - [Backlog](roadmap/backlog.md)
 
 ## Próxima meta
 
-Implementar RAG documental inicial e o Bastião Explorer v0.1 para entendimento de repositórios em modo somente leitura.
+Concluir os controles restantes da Fase 4: quotas de recursos, cancelamento
+ativo, concorrência controlada e interface humana de aprovação.

@@ -6,9 +6,9 @@ Esta pasta reservará a especificação e a implementação do orquestrador do B
 
 Dar ao Bastião Core ferramentas explícitas para entender projetos, consultar modelos especialistas, pesquisar fontes, criar tarefas e operar workspaces isolados.
 
-## Versão 0.1
+## Explorer v0.1 — concluído
 
-O Explorer opera em modo somente leitura e já tem uma implementação inicial em `agente/explorer.py`.
+O Explorer opera em modo somente leitura em `agente/explorer.py`.
 
 Funcionalidades atuais:
 
@@ -29,12 +29,9 @@ A consulta GitHub é opcional e deve ser solicitada com `--github`. Ela exige qu
 e `gh pr list`; falhas de autenticação ou conectividade são reportadas sem
 interromper a análise local.
 
-Próximos refinamentos planejados:
-
-- integração GitHub em leitura;
-- allowlist por projeto e por política;
-- execução segura de testes com timeout e logs;
-- relatório exportável por tarefa.
+O Explorer é uma capacidade independente de análise. A execução controlada de
+ferramentas está disponível pelo registro e executor locais, descritos em
+`docs/ferramentas.md` e `docs/executor.md`.
 
 ## Versão 0.2 — concluída
 
@@ -45,6 +42,16 @@ deploy e ações externas continuam fora do escopo.
 O Builder v0.1 está implementado em `agente/builder.py`. Consulte
 [`docs/builder.md`](../docs/builder.md) para a política, a raiz de workspaces e
 os limites de aprovação.
+
+## Task Engine v0.1
+
+`agente/tarefas.py`, `agente/worker.py` e `agente/relatorios.py` fornecem fila
+SQLite, máquina de estados, tentativas, recuperação segura e visões somente
+leitura de fila/relatórios/aprovações. O executor pode chamar somente
+ferramentas registradas de leitura, em processo isolado e com timeout.
+
+Não há executor de shell, ferramenta Docker/rede, concorrência, cancelamento
+ativo, quotas de recursos nem interface humana de aprovação.
 
 ## Limites técnicos
 
