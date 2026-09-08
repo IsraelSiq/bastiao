@@ -11,7 +11,6 @@
 
 - Integrar GitHub em modo leitura.
 - Implementar pesquisa web com fontes.
-- Automatizar backup com retenção e destino externo.
 - Evoluir o painel local de tarefas para interface autenticada, se necessário.
 
 ## Ideias futuras

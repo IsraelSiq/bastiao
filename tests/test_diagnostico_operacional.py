@@ -1,6 +1,15 @@
+import json
 from pathlib import Path
 
-from scripts.diagnostico_operacional import Check, backup_check, format_report, open_webui_url, redact, run_command
+from scripts.diagnostico_operacional import (
+    Check,
+    backup_check,
+    format_report,
+    open_webui_url,
+    redact,
+    remote_backup_check,
+    run_command,
+)
 
 
 def test_redact_masks_secret_values():
@@ -35,3 +44,50 @@ def test_format_report_counts_failures_and_alerts():
         [Check("a", "OK", "ok"), Check("b", "FALHA", "no"), Check("c", "ALERTA", "watch")]
     )
     assert "Resumo: 1 falha(s), 1 alerta(s)." in report
+
+
+def test_remote_backup_check_alerts_when_rclone_missing(monkeypatch):
+    monkeypatch.setattr("scripts.diagnostico_operacional.shutil.which", lambda _: None)
+    result = remote_backup_check(timeout=1)
+    assert result.status == "ALERTA"
+    assert "rclone nao instalado" in result.detail
+
+
+def test_remote_backup_check_fails_when_remote_unreachable(monkeypatch):
+    monkeypatch.setattr("scripts.diagnostico_operacional.shutil.which", lambda _: "/usr/bin/rclone")
+    monkeypatch.setattr(
+        "scripts.diagnostico_operacional.run_command",
+        lambda command, timeout: (False, "directory not found"),
+    )
+    result = remote_backup_check(timeout=1)
+    assert result.status == "FALHA"
+    assert "inacessivel" in result.detail
+
+
+def test_remote_backup_check_alerts_when_empty(monkeypatch):
+    monkeypatch.setattr("scripts.diagnostico_operacional.shutil.which", lambda _: "/usr/bin/rclone")
+    monkeypatch.setattr(
+        "scripts.diagnostico_operacional.run_command",
+        lambda command, timeout: (True, "[]"),
+    )
+    result = remote_backup_check(timeout=1)
+    assert result.status == "ALERTA"
+    assert "nenhum backup encontrado" in result.detail
+
+
+def test_remote_backup_check_reports_latest_directory(monkeypatch):
+    monkeypatch.setattr("scripts.diagnostico_operacional.shutil.which", lambda _: "/usr/bin/rclone")
+    entries = json.dumps(
+        [
+            {"Name": "20260901-120000", "IsDir": True},
+            {"Name": "20260908-214936", "IsDir": True},
+            {"Name": "notes.txt", "IsDir": False},
+        ]
+    )
+    monkeypatch.setattr(
+        "scripts.diagnostico_operacional.run_command",
+        lambda command, timeout: (True, entries),
+    )
+    result = remote_backup_check(timeout=1, remote="gdrive:bastiao-backup")
+    assert result.status == "OK"
+    assert result.detail == "mais recente: gdrive:bastiao-backup/20260908-214936"

@@ -100,6 +100,31 @@ def backup_check(home: Path) -> Check:
     return Check("Backups", status, f"mais recente: {latest}; hashes: {'presentes' if checksum_file.is_file() else 'ausentes'}")
 
 
+def remote_backup_check(timeout: int, remote: str = "gdrive:bastiao-backup") -> Check:
+    if shutil.which("rclone") is None:
+        return Check(
+            "Backup remoto",
+            "ALERTA",
+            "rclone nao instalado; configure conforme docs/backup-restauracao.md#backup-externo-google-drive",
+        )
+
+    ok, output = run_command(["rclone", "lsjson", remote, "--max-depth", "1"], timeout)
+    if not ok:
+        return Check("Backup remoto", "FALHA", f"remote inacessivel: {output}")
+
+    try:
+        entries = json.loads(output) if output else []
+    except json.JSONDecodeError:
+        return Check("Backup remoto", "FALHA", "resposta invalida de 'rclone lsjson'")
+
+    dirs = sorted(entry["Name"] for entry in entries if entry.get("IsDir") and entry.get("Name"))
+    if not dirs:
+        return Check("Backup remoto", "ALERTA", f"nenhum backup encontrado em {remote}")
+
+    latest = dirs[-1]
+    return Check("Backup remoto", "OK", f"mais recente: {remote}/{latest}")
+
+
 def build_checks(repo_root: Path, timeout: int, webui_url: str | None = None) -> list[Check]:
     infra_dir = repo_root / "infra" / "open-webui"
     home = repo_root.parent
@@ -126,6 +151,7 @@ def build_checks(repo_root: Path, timeout: int, webui_url: str | None = None) ->
         directory_check("Dados Open WebUI", infra_dir / "data"),
         directory_check("Modelos Ollama", infra_dir / "ollama"),
         backup_check(home),
+        remote_backup_check(timeout),
     ]
     return checks
 
