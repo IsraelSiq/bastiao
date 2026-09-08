@@ -36,6 +36,7 @@ Operar um servidor doméstico 24/7, acessível remotamente por rede privada, com
 - [Autorização e auditoria](docs/autorizacao-auditoria.md)
 - [Builder v0.1](docs/builder.md)
 - [Fila de tarefas](docs/tarefas.md)
+- [Worker de tarefas](docs/worker.md)
 - [Roadmap](roadmap/roadmap.md)
 - [Backlog](roadmap/backlog.md)
 
