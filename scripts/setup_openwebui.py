@@ -5,7 +5,7 @@ Script de validacao e apoio a configuracao do Open WebUI no Bastiao.
 O que ele faz:
 - Le rag/openwebui-config.json.
 - Valida se as pastas e arquivos das bases de conhecimento existem.
-- Verifica se o modelo de embeddings esta instalado no Ollama.
+- Verifica se o provider e o modelo de embeddings estao configurados.
 - Gera um relatorio em texto com:
   - O que esta OK.
   - O que falta fazer manualmente no Open WebUI.
@@ -190,7 +190,7 @@ def main() -> int:
 
     # Validar embeddings
     embeddings = config.get("embeddings", {})
-    print("2. EMBEDDINGS (OLLAMA)\n")
+    print("2. EMBEDDINGS\n")
 
     modelo_emb = embeddings.get("modelo", "")
     base_url = embeddings.get("base_url", "")
@@ -200,11 +200,13 @@ def main() -> int:
     print(f"Base URL: {base_url}")
     print(f"Modelo: {modelo_emb}")
 
-    if args.skip_ollama:
+    if provider.lower() == "ollama" and args.skip_ollama:
         print("[INFO] Consulta ao Ollama ignorada (modo sem Docker).")
     elif not modelo_emb:
         print("[!] Modelo de embeddings nao configurado.")
         validation_failed = True
+    elif provider.lower() != "ollama":
+        print(f"[OK] Provider local configurado: {provider}.")
     else:
         model_ok, model_message = check_ollama_model(modelo_emb, args.timeout)
         if model_ok:

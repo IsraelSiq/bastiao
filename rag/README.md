@@ -38,7 +38,8 @@ Sempre que adicionar ou modificar documentos:
 
 ## Estado atual
 
-- Configurar embeddings com `nomic-embed-text:latest` no Open WebUI.
+- O Open WebUI usa `sentence-transformers/all-MiniLM-L6-v2` para embeddings locais do RAG.
+- `nomic-embed-text:latest` permanece instalado no Ollama como alternativa, mas não é o provider ativo.
 - A base `Projetos-Ativos` existe e inclui a documentacao curada de `bastiao-piloto`.
 - O projeto-piloto possui os endpoints `/` e `/health`, testes pytest e lint Ruff.
 - Apos alterar documentos, reindexe a base no Open WebUI.
