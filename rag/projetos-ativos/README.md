@@ -13,11 +13,13 @@ rag/projetos-ativos/
     00-visao-geral.md
     01-arquitetura.md
     02-operacao.md
+    03-comandos-verificados.md
 ```
 
 ## Projetos atuais
 
-- `bastiao-piloto` – primeiro projeto-piloto, usado para desenvolver e testar o Bastiao Explorer e Builder.
+- `bastiao-piloto` – primeiro projeto-piloto, usado para validar Explorer,
+  Builder supervisionado e políticas por projeto.
 
 ## Como adicionar um projeto
 
@@ -26,6 +28,7 @@ rag/projetos-ativos/
    - `00-visao-geral.md` – objetivo, stack, contexto.
    - `01-arquitetura.md` – estrutura, modulos, dependencias.
    - `02-operacao.md` – como rodar, testar, fazer build e deploy.
+   - `03-comandos-verificados.md` – comandos executados e resultados.
 3. Mantenha o conteudo claro e "RAG-friendly" (titulos, listas, blocos de codigo).
 4. Evite segredos, tokens, senhas, IPs privados ou dados pessoais.
 5. Commit e push normais.

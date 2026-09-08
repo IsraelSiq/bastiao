@@ -5,7 +5,7 @@ Este documento explica como:
 1. Atualizar o repositorio no servidor.
 2. Rodar o script de validacao.
 3. Confirmar o provider local de embeddings.
-4. Configurar as bases de conhecimento no Open WebUI.
+4. Atualizar e reindexar as bases de conhecimento no Open WebUI.
 5. Testar RAG em conversas.
 
 ---
@@ -100,33 +100,28 @@ estiver vigente.
 1. No seu navegador, acesse o Open WebUI via Tailscale (ex.: `http://IP-DO-SERVIDOR:3000` ou o hostname que você usa).
 2. Faça login como administrador.
 
-### 4.2. Criar a base `Bastiao-Sistema`
+### 4.2. Atualizar a base `Bastiao-Sistema`
 
-1. Vá em **Knowledge** / **Knowledge Bases** (o nome pode variar conforme a versão).
-2. Clique em **Create New Knowledge Base**.
-3. Preencha:
-   - **Name**: `Bastiao-Sistema`
-   - **Description**: `Documentacao curada sobre o Bastiao: visao geral, arquitetura, modelos, seguranca, operacao e decisoes.`
-4. Em **Files** / **Documents**:
-   - Se permitir caminho absoluto: use o caminho do servidor para `rag/bastiao-sistema` (por exemplo, `/home/SEU_USUARIO/bastiao/rag/bastiao-sistema`).
-   - Se pedir upload: faça upload dos 6 arquivos:
+1. Vá em **Knowledge** / **Knowledge Bases** e abra `Bastiao-Sistema`.
+2. Substitua ou envie os documentos modificados. Se for necessário recriar a
+   base, use a descrição `Documentacao curada sobre o Bastiao: visao geral,
+   arquitetura, modelos, seguranca, operacao e decisoes.`
+3. Os documentos curados são:
      - `00-visao-geral.md`
      - `01-arquitetura.md`
      - `02-modelos.md`
      - `03-seguranca.md`
      - `04-operacao.md`
      - `05-decisoes.md`
-5. Salve/crie a base.
+4. Salve as alterações antes da reindexação.
 
-### 4.3. Criar a base `Projetos-Ativos`
+### 4.3. Atualizar a base `Projetos-Ativos`
 
-1. Ainda em **Knowledge Bases**, clique em **Create New Knowledge Base**.
-2. Preencha:
-   - **Name**: `Projetos-Ativos`
-   - **Description**: `Documentacao curada dos projetos ativos, usada para RAG contextual por projeto.`
-3. Em **Files**:
-   - Caminho: `/home/SEU_USUARIO/bastiao/rag/projetos-ativos` (ou upload da pasta).
-4. Salve.
+1. Ainda em **Knowledge Bases**, abra `Projetos-Ativos`.
+2. Substitua ou envie os documentos modificados de `rag/projetos-ativos/`.
+3. Se a coleção não existir, crie-a com o nome `Projetos-Ativos` e a descrição
+   `Documentacao curada dos projetos ativos, usada para RAG contextual por projeto.`
+4. Salve as alterações antes da reindexação.
 
 ### 4.4. Configurar embeddings
 
@@ -175,10 +170,11 @@ Em **Settings** / **General** (ou similar):
 
 Sempre que adicionar ou modificar documentos em `rag/bastiao-sistema/` ou `rag/projetos-ativos/`:
 
-1. No servidor:
+1. No servidor, valide o checkout antes da reindexação:
    ```bash
    cd ~/bastiao
-   git pull   # ou git add/commit/push se voce editou localmente
+   git pull --ff-only
+   python3 scripts/setup_openwebui.py --repo-root . --strict
    ```
 2. No Open WebUI:
    - Vá em **Knowledge Bases**.
@@ -186,13 +182,13 @@ Sempre que adicionar ou modificar documentos em `rag/bastiao-sistema/` ou `rag/p
 
 ---
 
-## 7. Script de validacao (opcional, sempre que quiser)
+## 7. Script de validacao
 
 Sempre que quiser validar a configuracao:
 
 ```bash
 cd ~/bastiao
-python3 scripts/setup_openwebui.py
+python3 scripts/setup_openwebui.py --repo-root . --strict
 ```
 
 Isso vai mostrar novamente:

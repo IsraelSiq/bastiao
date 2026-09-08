@@ -31,9 +31,19 @@ O Bastiao e um servidor pessoal de IA local, operado 24/7 em casa, acessivel rem
 - Embeddings do RAG: `sentence-transformers/all-MiniLM-L6-v2` no Open WebUI.
 - `nomic-embed-text:latest` permanece instalado no Ollama como alternativa.
 
-## Proximos passos
+## Estado do agente local
 
-- O provider ativo do RAG ja esta configurado como `sentence-transformers/all-MiniLM-L6-v2`.
-- Criar base de conhecimento `Bastiao-Sistema` (esta pasta).
-- Escolher um projeto-piloto para `Projetos-Ativos`.
-- Implementar Bastiao Explorer (leitura segura de repositorios).
+- O RAG usa `sentence-transformers/all-MiniLM-L6-v2`; `qwen3:8b` é o modelo de
+  chat validado para conversas com fontes.
+- As bases `Bastiao-Sistema` e `Projetos-Ativos` foram criadas e validadas.
+- Explorer, Builder supervisionado, workspaces isolados, fila SQLite, auditoria
+  e executor de ferramentas registradas já existem no repositório.
+- As ferramentas atualmente integradas ao executor são leitura segura de
+  arquivos e Git `status`/`log`; não há shell, Docker, rede ou APIs externas.
+
+## Próximos passos
+
+- Concluir quotas de recursos, cancelamento ativo, concorrência controlada e a
+  interface humana de aprovação da Fase 4.
+- Reindexar esta base após atualizações documentais e validar uma resposta com
+  fontes no Open WebUI.

@@ -70,5 +70,5 @@ Resultado atual: 2 testes aprovados e Ruff sem erros.
 ## Proximos passos
 
 - Padronizar scripts em `Makefile` ou `justfile`.
-- Adicionar CI basico (GitHub Actions) para testes e lint.
+- Manter o CI GitHub Actions que executa pytest, Ruff e `docker build --check`.
 - Documentar deploy (ex.: Docker, render, railway, etc.).

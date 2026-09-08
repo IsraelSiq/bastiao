@@ -1,7 +1,8 @@
 # Worker de tarefas
 
-O Worker coordena somente o ciclo de vida persistido de uma tarefa. Ele não
-executa shell, Git, Docker, rede ou qualquer ação externa.
+O Worker coordena o ciclo de vida persistido e pode solicitar uma única chamada
+ao executor seguro. Ele não executa shell, Git de escrita, Docker, rede ou
+qualquer ação externa.
 
 Uma tarefa pode iniciar apenas em `awaiting_approval`; cada início incrementa a
 tentativa, respeitando `max_attempts`. Sucesso progride por `testing` até
@@ -13,5 +14,7 @@ Após reinício, tarefas que estavam `executing` ou `testing` são movidas para
 uma alteração local ou ação externa incompleta. Cancelamento é persistido e
 permitido apenas para tarefas não terminais.
 
-O executor controlado de ferramentas será integrado posteriormente e precisará
-obedecer às aprovações, ao escopo de workspace e aos limites já persistidos.
+O executor recebe apenas ferramentas registradas, aplica o timeout persistido e
+correlaciona a chamada ao workspace da tarefa. Timeout move a tarefa para
+`blocked`; falhas retornam a `planning` somente quando restam tentativas. Não
+há concorrência nem replay automático.

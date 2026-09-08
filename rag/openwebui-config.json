@@ -41,7 +41,8 @@
           "arquivos": [
             "00-visao-geral.md",
             "01-arquitetura.md",
-            "02-operacao.md"
+            "02-operacao.md",
+            "03-comandos-verificados.md"
           ]
         }
       ],
@@ -91,8 +92,8 @@
       "1. Acesse o Open WebUI no navegador (via Tailscale, porta 3000).",
       "2. Faca login como administrador.",
       "3. Vá em Knowledge / Knowledge Bases.",
-      "4. Crie a base 'Bastiao-Sistema' apontando para /home/rael22/bastiao/rag/bastiao-sistema (ou faca upload dos 6 arquivos .md).",
-      "5. Crie a base 'Projetos-Ativos' apontando para /home/rael22/bastiao/rag/projetos-ativos (ou faca upload da pasta).",
+      "4. Abra a base existente 'Bastiao-Sistema' e envie ou substitua os documentos modificados.",
+      "5. Abra a base existente 'Projetos-Ativos' e envie ou substitua os documentos modificados.",
       "6. Em Settings / Embeddings, mantenha Provider=Sentence Transformers e Model=sentence-transformers/all-MiniLM-L6-v2.",
       "7. Reindexe ambas as bases.",
       "8. Em Settings / Models, defina qwen3:8b como modelo padrao e garanta que os modelos listados estao disponiveis.",
