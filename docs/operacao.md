@@ -78,14 +78,18 @@ python3 scripts/diagnostico_operacional.py --repo-root .
 ```
 
 O diagnóstico é somente leitura. Ele verifica sistema, Docker, containers,
-modelos Ollama, GPU, endpoint de saúde via Tailscale, diretórios persistentes e
-o backup mais recente. Para consumo automatizado, use `--json`; para uma rede
-sem Tailscale, informe `--open-webui-url http://ENDERECO:3000/health`.
+modelos Ollama, GPU, endpoint de saúde via Tailscale, diretórios persistentes,
+o backup local mais recente e o backup remoto (Google Drive via `rclone`,
+alertando se ainda não estiver configurado). Para consumo automatizado, use
+`--json`; para uma rede sem Tailscale, informe
+`--open-webui-url http://ENDERECO:3000/health`.
 
 ## Backup
 
 O backup verificado cobre os dados persistentes do Open WebUI, modelos Ollama,
 projetos locais e documentação operacional. Antes de atualizações ou alterações
-de Compose, crie um backup e confirme os hashes. O procedimento completo,
-incluindo teste de restauração e rollback, está em
-[Backup e restauração](backup-restauracao.md).
+de Compose, crie um backup e confirme os hashes. Um backup externo automatizado
+via `scripts/backup_externo.sh` envia um snapshot (sem os modelos Ollama, que
+são reproduzíveis) para o Google Drive com verificação de integridade e
+retenção. O procedimento completo, incluindo configuração do `rclone`, teste de
+restauração e rollback, está em [Backup e restauração](backup-restauracao.md).

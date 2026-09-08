@@ -28,6 +28,50 @@ O backup inicial validado em 2026-09-08 está em:
 /home/rael22/bastiao-backup-20260908-214936
 ```
 
+## Backup externo (Google Drive)
+
+Um backup local sozinho não protege contra falha física do host. O destino
+externo escolhido é o Google Drive, acessado via `rclone` com escopo restrito
+`drive.file` (o rclone só enxerga arquivos que ele mesmo cria, nunca o resto
+do Drive).
+
+### Configuração (uma vez)
+
+```bash
+sudo apt-get update && sudo apt-get install -y rclone
+rclone config      # nome do remote: gdrive; tipo: drive; scope: drive.file
+chmod 600 ~/.config/rclone/rclone.conf
+```
+
+Como o host é headless, a etapa `Use auto config?` deve ser respondida `n`;
+o rclone imprime um comando `rclone authorize "drive" "<token>"` para rodar
+em qualquer máquina com navegador (inclusive celular) e o resultado deve ser
+colado de volta no prompt `config_token>` do host. `rclone.conf` contém um
+token OAuth equivalente a uma credencial e deve manter permissão `600`.
+
+### Execução
+
+```bash
+scripts/backup_externo.sh
+```
+
+O script:
+
+- recusa-se a rodar se `rclone` não estiver instalado ou o remote `gdrive`
+  não estiver configurado/acessível — nunca tenta gravar em outro lugar;
+- cria um snapshot local em `~/bastiao-backup-<timestamp>/` reutilizando as
+  mesmas exclusões deste documento;
+- **exclui os modelos do Ollama do envio remoto** (grandes, reproduzíveis via
+  `ollama pull`) para caber na cota gratuita do Google Drive; o backup local
+  continua incluindo-os;
+- envia o snapshot para `gdrive:bastiao-backup/<timestamp>/`, confere a
+  integridade com `rclone check` e aplica retenção (mantém os 5 backups
+  remotos mais recentes por padrão, configurável via `BACKUP_RETENTION`).
+
+`scripts/diagnostico_operacional.py` inclui a checagem "Backup remoto", que
+reporta o backup mais recente em `gdrive:bastiao-backup` ou alerta se o
+rclone não estiver configurado ainda.
+
 ## Criar backup
 
 No host, execute o procedimento abaixo a partir de um diretório de destino
