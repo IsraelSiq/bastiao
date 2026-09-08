@@ -1,5 +1,6 @@
 import json
 import subprocess
+import sys
 from unittest.mock import patch
 
 from agente.explorer import (
@@ -82,7 +83,8 @@ def test_policy_is_required_before_running_commands(tmp_path):
 def test_allowed_command_runs_inside_repository(tmp_path):
     repo = tmp_path / "repo"
     repo.mkdir()
-    result = run_allowed_command(repo, "python -c \"print('ok')\"", ["python -c \"print('ok')\""])
+    command = f'"{sys.executable}" -c "print(\'ok\')"'
+    result = run_allowed_command(repo, command, [command])
     assert result["returncode"] == 0
     assert result["stdout"] == "ok"
 
