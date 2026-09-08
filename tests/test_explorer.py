@@ -33,6 +33,8 @@ def test_iter_allowed_files_excludes_local_test_artifacts(tmp_path):
     (repo / ".venv-explorer" / "secret.txt").write_text("hidden", encoding="utf-8")
     (repo / ".pytest_cache").mkdir()
     (repo / ".pytest_cache" / "cache.txt").write_text("hidden", encoding="utf-8")
+    (repo / ".ruff_cache").mkdir()
+    (repo / ".ruff_cache" / "cache.txt").write_text("hidden", encoding="utf-8")
     (repo / "README.md").write_text("visible", encoding="utf-8")
 
     files = {path.relative_to(repo).as_posix() for path in iter_allowed_files(repo)}
