@@ -53,7 +53,7 @@
     "autenticacao": {
       "habilitar_autenticacao": true,
       "permitir_cadastro_publico": false,
-      "descricao": "Manter autenticaçª£o habilitada e cadastro restrito a usuarios conhecidos."
+      "descricao": "Manter autenticação habilitada e cadastro restrito a usuarios conhecidos."
     },
     "modelos": {
       "modelo_padrao": "qwen3:8b",
@@ -78,7 +78,7 @@
       "nao_expor_api_ollama": true,
       "porta_openwebui": 3000,
       "acesso_via_tailscale": true,
-      "descricao": "Ollama apenas na rede Docker. Open WebUI acessado via Tailscale, sem exposiçª£o direta a internet."
+      "descricao": "Ollama apenas na rede Docker. Open WebUI acessado via Tailscale, sem exposição direta a internet."
     },
     "backup": {
       "diretorio_dados_openwebui": "~/bastiao/infra/open-webui/data",
@@ -90,7 +90,7 @@
     "passos": [
       "1. Acesse o Open WebUI no navegador (via Tailscale, porta 3000).",
       "2. Faca login como administrador.",
-      "3. Vá´´em Knowledge / Knowledge Bases.",
+      "3. Vá em Knowledge / Knowledge Bases.",
       "4. Crie a base 'Bastiao-Sistema' apontando para /home/rael22/bastiao/rag/bastiao-sistema (ou faca upload dos 6 arquivos .md).",
       "5. Crie a base 'Projetos-Ativos' apontando para /home/rael22/bastiao/rag/projetos-ativos (ou faca upload da pasta).",
       "6. Em Settings / Embeddings, mantenha Provider=Sentence Transformers e Model=sentence-transformers/all-MiniLM-L6-v2.",
@@ -110,6 +110,6 @@
   "notas": {
     "api_importacao": "O Open WebUI nao possui API oficial de importacao de configuracoes via JSON. Este arquivo serve como documentacao estruturada e base para scripts futuros.",
     "caminhos": "Ajuste os caminhos (/home/rael22/...) conforme o usuario e estrutura do seu servidor.",
-    "versoes": "Verifique a versao do Open WebUI; nomes de menus e opçªµes podem variar ligeiramente."
+    "versoes": "Verifique a versao do Open WebUI; nomes de menus e opções podem variar ligeiramente."
   }
 }

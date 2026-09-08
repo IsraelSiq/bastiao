@@ -181,7 +181,7 @@ Sempre que adicionar ou modificar documentos em `rag/bastiao-sistema/` ou `rag/p
    git pull   # ou git add/commit/push se voce editou localmente
    ```
 2. No Open WebUI:
-   - Vá´´em **Knowledge Bases**.
+   - Vá em **Knowledge Bases**.
    - Reindexe a base afetada (`Bastiao-Sistema` ou `Projetos-Ativos`).
 
 ---
