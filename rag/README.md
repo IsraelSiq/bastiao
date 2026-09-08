@@ -16,7 +16,7 @@ Uso: configurar no Open WebUI como base de conhecimento para conversas sobre o s
 
 Documentacao e arquivos de projetos em desenvolvimento, usados para RAG contextual por projeto.
 
-Local: `rag/projetos-ativos/` (a criar)
+Local: `rag/projetos-ativos/`
 
 Uso: cada projeto tera sua propria subpasta com documentos curados (README, arquitetura, decisoes, operacao).
 
@@ -32,12 +32,13 @@ Uso: cada projeto tera sua propria subpasta com documentos curados (README, arqu
 Sempre que adicionar ou modificar documentos:
 
 1. No Open WebUI, va em **Knowledge Bases** (ou equivalente).
-2. Selecione a base (`Bastiao-Sistema` ou futura `Projetos-Ativos`).
+2. Selecione a base (`Bastiao-Sistema` ou `Projetos-Ativos`).
 3. Acione a reindexacao/refresh dos documentos.
 4. Aguarde a conclusao antes de usar RAG em conversas.
 
-## Proximos passos
+## Estado atual
 
 - Configurar embeddings com `nomic-embed-text:latest` no Open WebUI.
-- Criar base `Projetos-Ativos` com um projeto-piloto.
-- Definir rotina de curadoria e reindexacao.
+- A base `Projetos-Ativos` existe e inclui a documentacao curada de `bastiao-piloto`.
+- O projeto-piloto possui os endpoints `/` e `/health`, testes pytest e lint Ruff.
+- Apos alterar documentos, reindexe a base no Open WebUI.

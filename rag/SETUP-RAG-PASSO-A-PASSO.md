@@ -44,7 +44,7 @@ No servidor:
 
 ```bash
 cd ~/bastiao
-python3 scripts/setup_openwebui.py
+python3 scripts/setup_openwebui.py --repo-root .
 ```
 
 O script vai mostrar algo como:
@@ -58,6 +58,24 @@ O script vai mostrar algo como:
 - Sugestoes de perguntas para testar RAG.
 
 Se algo estiver faltando (ex.: modelo de embeddings ou arquivos), o script vai indicar.
+
+O script retorna código diferente de zero quando uma base, arquivo, configuração
+ou dependência do Docker/Ollama falhar. Para usar em CI, rode:
+
+```bash
+python3 scripts/setup_openwebui.py --repo-root . --strict
+```
+
+O caminho do repositório também pode ser informado por `BASTIAO_REPO_ROOT`.
+O arquivo JSON usa caminhos relativos para funcionar em qualquer checkout; o
+caminho absoluto documentado continua disponível como referência operacional.
+
+Em CI ou em uma máquina sem Docker/Ollama, valide os arquivos e a configuração
+sem consultar o modelo de embeddings:
+
+```bash
+python3 scripts/setup_openwebui.py --repo-root . --skip-ollama --strict
+```
 
 ---
 
