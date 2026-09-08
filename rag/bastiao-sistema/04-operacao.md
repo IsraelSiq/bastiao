@@ -66,5 +66,12 @@ tarefa; ele não inicia execução automaticamente.
 
 Antes de alterar imagens ou Compose, valide o backup por SHA-256 e execute um
 teste de restauracao em diretorio temporario. O procedimento versionado fica em
-`docs/backup-restauracao.md`; o backup validado em 2026-09-08 esta em
-`/home/rael22/bastiao-backup-20260908-214936`.
+`docs/backup-restauracao.md`.
+
+Alem do backup local, existe backup externo automatizado para o Google Drive
+via `rclone` (`scripts/backup_externo.sh`), com escopo restrito `drive.file`,
+verificacao de integridade (`rclone check`) e retencao dos 5 backups remotos
+mais recentes. Os modelos Ollama sao excluidos do envio remoto de proposito
+(grandes, reproduziveis via `ollama pull`, cota do Drive limitada). O
+diagnostico operacional reporta o backup remoto mais recente ou alerta se o
+`rclone` nao estiver configurado. Configurado e validado em 2026-09-08.
