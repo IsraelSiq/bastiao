@@ -1,0 +1,5 @@
+{
+  "test_commands": [
+    "python -m pytest -q"
+  ]
+}

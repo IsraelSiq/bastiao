@@ -83,19 +83,19 @@ E confirme que agora aparece `[OK] Modelo de embeddings instalado no Ollama.`
 
 ### 4.1. Acessar o Open WebUI
 
-1. No seu navegador, acesse o Open WebUI via Tailscale (ex.: `http://IP-DO-SERVIDOR:3000` ou o hostname que voce usa).
-2. Faca login como administrador.
+1. No seu navegador, acesse o Open WebUI via Tailscale (ex.: `http://IP-DO-SERVIDOR:3000` ou o hostname que você usa).
+2. Faça login como administrador.
 
 ### 4.2. Criar a base `Bastiao-Sistema`
 
-1. Vá´´em **Knowledge** / **Knowledge Bases** (o nome pode variar conforme a versao).
+1. Vá em **Knowledge** / **Knowledge Bases** (o nome pode variar conforme a versão).
 2. Clique em **Create New Knowledge Base**.
 3. Preencha:
    - **Name**: `Bastiao-Sistema`
    - **Description**: `Documentacao curada sobre o Bastiao: visao geral, arquitetura, modelos, seguranca, operacao e decisoes.`
 4. Em **Files** / **Documents**:
-   - Se permitir caminho absoluto: use `/home/rael22/bastiao/rag/bastiao-sistema`.
-   - Se pedir upload: faca upload dos 6 arquivos:
+   - Se permitir caminho absoluto: use o caminho do servidor para `rag/bastiao-sistema` (por exemplo, `/home/SEU_USUARIO/bastiao/rag/bastiao-sistema`).
+   - Se pedir upload: faça upload dos 6 arquivos:
      - `00-visao-geral.md`
      - `01-arquitetura.md`
      - `02-modelos.md`
@@ -111,12 +111,12 @@ E confirme que agora aparece `[OK] Modelo de embeddings instalado no Ollama.`
    - **Name**: `Projetos-Ativos`
    - **Description**: `Documentacao curada dos projetos ativos, usada para RAG contextual por projeto.`
 3. Em **Files**:
-   - Caminho: `/home/rael22/bastiao/rag/projetos-ativos` (ou upload da pasta).
+   - Caminho: `/home/SEU_USUARIO/bastiao/rag/projetos-ativos` (ou upload da pasta).
 4. Salve.
 
 ### 4.4. Configurar embeddings
 
-1. Vá´´em **Settings** / **Embeddings** (ou similar).
+1. Vá em **Settings** / **Embeddings** (ou similar).
 2. Configure:
    - **Provider**: `Ollama`
    - **Base URL**: `http://ollama:11434`
@@ -128,15 +128,15 @@ E confirme que agora aparece `[OK] Modelo de embeddings instalado no Ollama.`
 1. Volte para **Knowledge Bases**.
 2. Para cada base (`Bastiao-Sistema`, `Projetos-Ativos`):
    - Clique em **Reindex** / **Refresh** / **Re-embed**.
-   - Aguarde a conclusao.
+   - Aguarde a conclusão.
 
 ### 4.6. Ajustes gerais recomendados
 
 Em **Settings** / **General** (ou similar):
 
-- Habilitar autenticacao: **sim**.
-- Permitir cadastro publico: **nao**.
-- Modelo padrao: `qwen3:8b` (ou outro que preferir).
+- Habilitar autenticação: **sim**.
+- Permitir cadastro público: **não**.
+- Modelo padrão: `qwen3:8b` (ou outro que preferir).
 
 ---
 
