@@ -15,6 +15,8 @@ FORBIDDEN_SEGMENTS = {
     ".git",
     ".venv",
     "venv",
+    ".venv-explorer",
+    ".pytest_cache",
     "node_modules",
     "__pycache__",
     "secrets",
@@ -33,19 +35,6 @@ FORBIDDEN_SEGMENTS = {
     ".idea",
     ".vscode",
 }
-
-FORBIDDEN_FILE_PATTERNS = (
-    ".env",
-    ".env.",
-    ".pem",
-    ".key",
-    ".crt",
-    ".pfx",
-    ".p12",
-    ".sqlite",
-    ".db",
-)
-
 
 def is_safe_path(base_dir: Path, target: Path) -> bool:
     try:
@@ -77,7 +66,17 @@ def iter_allowed_files(base_dir: Path) -> list[Path]:
         dirs[:] = [
             d
             for d in dirs
-            if d not in {".git", ".hg", ".svn", ".venv", "venv", "node_modules", "__pycache__"}
+            if d not in {
+                ".git",
+                ".hg",
+                ".svn",
+                ".venv",
+                ".venv-explorer",
+                ".pytest_cache",
+                "venv",
+                "node_modules",
+                "__pycache__",
+            }
             and d.lower() not in FORBIDDEN_SEGMENTS
         ]
         for filename in files:
