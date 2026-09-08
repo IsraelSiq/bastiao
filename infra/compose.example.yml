@@ -2,7 +2,7 @@
 # Os digests abaixo correspondem as imagens observadas no host em 2026-09-08.
 services:
   ollama:
-    image: ollama/ollama@sha256:57a73f11f75b32b97b59b003f351445c9c2a8af4b9d586ecdc928dee6150ef26
+    image: ollama/ollama@sha256:32931b46719f673c05fdbaa81ccb26da18ea4a1c57590a754874ab28ba269eb2
     container_name: ollama
     restart: unless-stopped
     volumes:
@@ -21,11 +21,11 @@ services:
               capabilities: [gpu]
 
   open-webui:
-    image: ghcr.io/open-webui/open-webui@sha256:c9a05105e74c800ef10dfe635bfd4e5ebe2f3b4d4308480728df1784e7376fdf
+    image: ghcr.io/open-webui/open-webui@sha256:1a6399d237dc392a2313e0ca826020b3fd5d22536357840eb63393d18dc8b924
     container_name: open-webui
     restart: unless-stopped
     ports:
-      - "127.0.0.1:3000:8080"
+      - "${OPEN_WEBUI_BIND_ADDRESS:?defina o endereco privado de bind}:3000:8080"
     environment:
       WEBUI_SECRET_KEY: "${WEBUI_SECRET_KEY:?defina WEBUI_SECRET_KEY fora do Git}"
       OLLAMA_BASE_URL: "http://ollama:11434"

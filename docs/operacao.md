@@ -4,10 +4,10 @@
 
 Os arquivos do Compose atual ficam fora deste repositório, em `~/bastiao/infra/open-webui`. Não versionar o arquivo real se ele contiver `WEBUI_SECRET_KEY`; use `infra/compose.example.yml` como referência sanitizada.
 
-O exemplo versionado usa imagens fixadas por digest, health checks e publica o
-Open WebUI apenas em `127.0.0.1:3000`. Para acesso remoto via Tailscale, use
-uma camada privada já aprovada (por exemplo, Tailscale Serve) ou revise a
-interface de bind antes de aplicar. Nunca publique o Ollama no host.
+O exemplo versionado usa imagens fixadas por digest, health checks e exige um
+endereço privado explícito em `OPEN_WEBUI_BIND_ADDRESS`. Para acesso remoto via
+Tailscale, use o IP Tailscale do host (por exemplo, `100.x.y.z`) para manter a
+porta inacessível pelas interfaces públicas. Nunca publique o Ollama no host.
 
 Entrar no diretório de infraestrutura:
 
@@ -48,6 +48,8 @@ Antes de qualquer mudança:
 2. Valide o arquivo sem iniciar serviços:
 
 ```bash
+export OPEN_WEBUI_BIND_ADDRESS="$(tailscale ip -4)"
+export WEBUI_SECRET_KEY='valor-ja-existente-e-secreto'
 docker compose config
 ```
 
