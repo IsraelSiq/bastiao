@@ -4,6 +4,11 @@
 
 Os arquivos do Compose atual ficam fora deste repositório, em `~/bastiao/infra/open-webui`. Não versionar o arquivo real se ele contiver `WEBUI_SECRET_KEY`; use `infra/compose.example.yml` como referência sanitizada.
 
+O exemplo versionado usa imagens fixadas por digest, health checks e publica o
+Open WebUI apenas em `127.0.0.1:3000`. Para acesso remoto via Tailscale, use
+uma camada privada já aprovada (por exemplo, Tailscale Serve) ou revise a
+interface de bind antes de aplicar. Nunca publique o Ollama no host.
+
 Entrar no diretório de infraestrutura:
 
 ```bash
@@ -34,6 +39,34 @@ Atualizar imagens e recriar serviços:
 docker compose pull
 docker compose up -d
 ```
+
+## Atualização e rollback
+
+Antes de qualquer mudança:
+
+1. Faça o backup dos diretórios persistentes `data` e `ollama`.
+2. Valide o arquivo sem iniciar serviços:
+
+```bash
+docker compose config
+```
+
+3. Guarde a versão anterior do Compose e registre as imagens atuais:
+
+```bash
+cp compose.yml "compose.yml.$(date +%Y%m%d-%H%M%S).bak"
+docker compose images
+```
+
+Depois da atualização, confirme `docker compose ps` e o endpoint `/health`.
+Se houver falha, restaure o arquivo anterior e execute:
+
+```bash
+docker compose up -d
+```
+
+Não remova volumes, não execute `docker compose down -v` e não apague os
+diretórios persistentes durante um rollback.
 
 ## Diagnóstico
 
