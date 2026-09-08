@@ -15,7 +15,7 @@ O Bastiao e um servidor pessoal de IA local, operado 24/7 em casa, acessivel rem
 
 - **Local-first**: modelos e dados permanecem no servidor; integracoes externas sao opcionais e controladas.
 - **Acesso remoto privado**: SSH, Open WebUI e Ollama nao sao expostos diretamente a internet; uso de Tailscale.
-- **Separaçª£o de responsabilidades**: modelo, memoria, ferramentas e permissoes sao componentes distintos.
+- **Separação de responsabilidades**: modelo, memoria, ferramentas e permissoes sao componentes distintos.
 - **Automacao gradual**: leitura e analise antes de escrita; testes e diff antes de commit; confirmacao antes de acoes externas.
 - **Segredos fora do repo**: senhas, tokens, chaves e arquivos `.env` nunca entram no repositorio.
 
@@ -24,14 +24,14 @@ O Bastiao e um servidor pessoal de IA local, operado 24/7 em casa, acessivel rem
 - Ubuntu Server 26.04 LTS
 - SSH e Tailscale para acesso remoto
 - Docker Engine + Docker Compose
-- Open WebUI (porta 3000, com autenticaçª£o)
+- Open WebUI (porta 3000, com autenticação)
 - Ollama (API apenas na rede Docker)
 - GPU NVIDIA GTX 1660 Ti (6 GB VRAM) com NVIDIA Container Toolkit
 - Modelos: `qwen3:8b` (Core), `qwen2.5-coder:7b` (Dev), `llama3.2:3b` (rapido)
 - Embeddings do RAG: `sentence-transformers/all-MiniLM-L6-v2` no Open WebUI.
 - `nomic-embed-text:latest` permanece instalado no Ollama como alternativa.
 
-## Pr oximos passos
+## Proximos passos
 
 - O provider ativo do RAG ja esta configurado como `sentence-transformers/all-MiniLM-L6-v2`.
 - Criar base de conhecimento `Bastiao-Sistema` (esta pasta).

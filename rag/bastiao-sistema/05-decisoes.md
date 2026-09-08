@@ -7,11 +7,11 @@
 
 ### Contexto
 
-O projeto Bastiao precisa executar modelos locais, ser acessivel remotamente sem exposiçª£o publica direta e crescer para RAG, programaçª£o assistida e automaçª£o supervisionada.
+O projeto Bastiao precisa executar modelos locais, ser acessivel remotamente sem exposição publica direta e crescer para RAG, programação assistida e automação supervisionada.
 
 ### Decisao
 
-Adotar Ubuntu Server 26.04 LTS como host, Tailscale para acesso remoto privado, Docker Compose para serviçªµs, Ollama para execucao de modelos locais e Open WebUI como interface.
+Adotar Ubuntu Server 26.04 LTS como host, Tailscale para acesso remoto privado, Docker Compose para serviços, Ollama para execucao de modelos locais e Open WebUI como interface.
 
 Modelos iniciais:
 
@@ -25,11 +25,11 @@ A GPU NVIDIA GTX 1660 Ti sera disponibilizada ao container Ollama via NVIDIA Con
 
 ### Consequencias
 
-- Modelos e dados permanecem no host quando nao e necessaria uma integraçª£o externa.
+- Modelos e dados permanecem no host quando nao e necessaria uma integração externa.
 - A API do Ollama permanece apenas na rede Docker.
 - Open WebUI e acessado pela porta 3000 em rede privada.
-- A automaçª£o futura deve operar em workspaces isolados, com Git, testes e revisao humana antes de commit/push.
-- O repositorio GitHub contem somente documentaçª£o e exemplos sanitizados.
+- A automação futura deve operar em workspaces isolados, com Git, testes e revisao humana antes de commit/push.
+- O repositorio GitHub contem somente documentação e exemplos sanitizados.
 
 ## Outras decisoes
 

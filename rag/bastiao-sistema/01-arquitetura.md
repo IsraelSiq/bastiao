@@ -23,7 +23,7 @@ Docker Compose
 | SSH | Administracao remota | Rede local / Tailscale | Config do sistema |
 | Tailscale | Acesso remoto privado | Tailnet | Conta/config Tailscale |
 | Docker Compose | Orquestracao de containers | Local | Arquivos em `~/bastiao/infra/open-webui` |
-| Open WebUI | Interface, autenticaçª£o, conversas e RAG | Porta 3000 | `./data` |
+| Open WebUI | Interface, autenticação, conversas e RAG | Porta 3000 | `./data` |
 | Ollama | API e execucao de modelos locais | Apenas rede Docker | `./ollama` |
 | NVIDIA Container Toolkit | Acesso da GPU aos containers | Interno | Config Docker |
 
@@ -54,4 +54,4 @@ Usuario
        |- SQLite: tarefas, logs, aprovacoes e relatorios
 ```
 
-O Core planeja e sintetiza. Ferramentas executam operaçªµes delimitadas. Nenhum modelo recebe acesso irrestrito ao host, Docker socket, `sudo`, segredos ou producao.
+O Core planeja e sintetiza. Ferramentas executam operações delimitadas. Nenhum modelo recebe acesso irrestrito ao host, Docker socket, `sudo`, segredos ou producao.

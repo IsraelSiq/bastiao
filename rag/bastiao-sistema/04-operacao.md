@@ -1,6 +1,6 @@
-# Bastiao – Operaçª£o
+# Bastiao – Operação
 
-## Serviçªµs
+## Serviços
 
 Os arquivos do Compose atual ficam fora deste repositorio, em `~/bastiao/infra/open-webui`. Nao versionar o arquivo real se ele contiver `WEBUI_SECRET_KEY`; use `infra/compose.example.yml` como referencia sanitizada.
 
@@ -32,14 +32,14 @@ Ver logs do Ollama:
 docker compose logs --tail=100 ollama
 ```
 
-Atualizar imagens e recriar serviçªµs:
+Atualizar imagens e recriar serviços:
 
 ```bash
 docker compose pull
 docker compose up -d
 ```
 
-## Diagn ostico
+## Diagnostico
 
 ```bash
 uptime
