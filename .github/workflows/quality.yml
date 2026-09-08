@@ -1,0 +1,46 @@
+name: Quality
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate JSON
+        run: python -m json.tool rag/openwebui-config.json >/dev/null
+
+      - name: Validate Python syntax
+        run: python -m compileall -q scripts
+
+      - name: Validate RAG configuration
+        run: python scripts/setup_openwebui.py --repo-root . --skip-ollama --strict
+
+      - name: Check for private keys
+        run: |
+          if grep -RInE --exclude-dir=.git --exclude='*.md' \
+            '-----BEGIN (RSA|OPENSSH|EC|DSA|PRIVATE) KEY-----' .; then
+            echo "Private key material found in tracked files."
+            exit 1
+          fi
+
+      - name: Check for common secret assignments
+        run: |
+          if grep -RInE --exclude-dir=.git --exclude='*.md' \
+            '(api[_-]?key|secret|password|token)[[:space:]]*[:=][[:space:]]*["'\''][^"'\'']+["'\'']' .; then
+            echo "Possible hard-coded secret assignment found."
+            exit 1
+          fi

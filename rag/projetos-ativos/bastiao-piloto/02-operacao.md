@@ -1,9 +1,9 @@
-# bastiao-piloto – Operaçª£o
+# bastiao-piloto - Operacao
 
 ## Pre-requisitos
 
 - Python 3.11+
-- `pip` ou `uv`
+- `pip`
 - Git
 
 ## Rodar localmente
@@ -41,25 +41,31 @@ pytest
 ## Lint
 
 ```bash
-# Com ruff
+# Com o ambiente virtual ativado
 ruff check src tests
-
-# Ou, se usar flake8
-flake8 src tests
 ```
 
-## Build / Docker (opcional)
+## Build / Docker
 
 ```bash
 docker build -t bastiao-piloto .
 docker run -p 8000:8000 bastiao-piloto
 ```
 
-## Comandos resumidos
+## Comandos verificados no host
 
 - Rodar: `uvicorn src.main:app --reload`
 - Testes: `pytest`
 - Lint: `ruff check src tests`
+
+No host de validacao, os comandos equivalentes usando o ambiente virtual sao:
+
+```bash
+.venv/bin/pytest -q
+.venv/bin/ruff check src tests
+```
+
+Resultado atual: 2 testes aprovados e Ruff sem erros.
 
 ## Proximos passos
 
