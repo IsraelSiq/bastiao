@@ -50,8 +50,11 @@ Git de escrita pelo executor.
 - [Adaptadores e executor seguro](docs/executor.md)
 - [Roadmap](roadmap/roadmap.md)
 - [Backlog](roadmap/backlog.md)
+- [Handoff — estado da sessão e próximos passos](docs/handoff.md)
 
 ## Próxima meta
 
-Concluir os controles restantes da Fase 4: quotas de recursos, cancelamento
-ativo, concorrência controlada e interface humana de aprovação.
+Reindexar as bases RAG no Open WebUI após as últimas atualizações
+documentais e avançar a issue #22 (observabilidade e confiabilidade
+operacional). Veja [docs/handoff.md](docs/handoff.md) para o estado
+detalhado e a ordem sugerida.
