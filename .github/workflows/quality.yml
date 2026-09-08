@@ -47,6 +47,9 @@ jobs:
       - name: Run worker lifecycle tests
         run: python -m pytest tests/test_worker.py -q
 
+      - name: Run tool registry tests
+        run: python -m pytest tests/test_ferramentas.py -q
+
       - name: Validate RAG configuration
         run: python scripts/setup_openwebui.py --repo-root . --skip-ollama --strict
 
