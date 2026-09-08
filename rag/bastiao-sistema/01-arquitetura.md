@@ -59,3 +59,5 @@ Usuario
 
 O Core ainda não chama estas bibliotecas diretamente. Nenhum modelo recebe
 acesso irrestrito ao host, Docker socket, `sudo`, segredos ou produção.
+O Worker aplica concorrência explícita, timeout, cancelamento e recuperação sem
+replay. O painel de aprovação é local em terminal, não é um serviço web.

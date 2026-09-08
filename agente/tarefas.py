@@ -8,10 +8,10 @@ from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 
-from agente.autorizacao import Approval, AuditLog, TaskState, transition_allowed, utc_now
+from agente.autorizacao import Action, Approval, AuditLog, TaskState, transition_allowed, utc_now
 from agente.builder import TASK_ID_PATTERN
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
 SENSITIVE_VALUE = re.compile(r"(?i)\b(secret|token|password|api[_-]?key)\b(\s*[:=]\s*)([^\s,;]+)")
 
 
@@ -24,6 +24,8 @@ class Task:
     timeout_seconds: int
     max_attempts: int
     attempts: int
+    max_memory_bytes: int
+    min_free_disk_bytes: int
     created_at: str
     updated_at: str
 
@@ -51,6 +53,8 @@ class TaskStore:
                     timeout_seconds INTEGER NOT NULL CHECK(timeout_seconds > 0),
                     max_attempts INTEGER NOT NULL CHECK(max_attempts > 0),
                     attempts INTEGER NOT NULL DEFAULT 0 CHECK(attempts >= 0),
+                    max_memory_bytes INTEGER NOT NULL DEFAULT 1073741824 CHECK(max_memory_bytes > 0),
+                    min_free_disk_bytes INTEGER NOT NULL DEFAULT 1073741824 CHECK(min_free_disk_bytes >= 0),
                     created_at TEXT NOT NULL,
                     updated_at TEXT NOT NULL
                 );
@@ -79,19 +83,36 @@ class TaskStore:
                 );
                 """
             )
+            columns = {row["name"] for row in connection.execute("PRAGMA table_info(tasks)")}
+            if "max_memory_bytes" not in columns:
+                connection.execute("ALTER TABLE tasks ADD COLUMN max_memory_bytes INTEGER NOT NULL DEFAULT 1073741824")
+            if "min_free_disk_bytes" not in columns:
+                connection.execute("ALTER TABLE tasks ADD COLUMN min_free_disk_bytes INTEGER NOT NULL DEFAULT 1073741824")
             if connection.execute("SELECT COUNT(*) FROM schema_metadata").fetchone()[0] == 0:
                 connection.execute("INSERT INTO schema_metadata(version) VALUES (?)", (SCHEMA_VERSION,))
+            else:
+                connection.execute("UPDATE schema_metadata SET version = ?", (SCHEMA_VERSION,))
+        self.database_path.chmod(0o600)
 
-    def create_task(self, task_id: str, description: str, workspace: Path, timeout_seconds: int = 120, max_attempts: int = 1) -> Task:
+    def create_task(
+        self,
+        task_id: str,
+        description: str,
+        workspace: Path,
+        timeout_seconds: int = 120,
+        max_attempts: int = 1,
+        max_memory_bytes: int = 1_073_741_824,
+        min_free_disk_bytes: int = 1_073_741_824,
+    ) -> Task:
         if not TASK_ID_PATTERN.fullmatch(task_id) or not description.strip():
             raise ValueError("tarefa requer id valido e descricao")
-        if timeout_seconds <= 0 or max_attempts <= 0:
+        if timeout_seconds <= 0 or max_attempts <= 0 or max_memory_bytes <= 0 or min_free_disk_bytes < 0:
             raise ValueError("limites devem ser positivos")
         now = utc_now().isoformat()
         with self._connect() as connection:
             connection.execute(
-                "INSERT INTO tasks VALUES (?, ?, ?, ?, ?, ?, 0, ?, ?)",
-                (task_id, self._redact(description), str(workspace.resolve()), TaskState.PENDING, timeout_seconds, max_attempts, now, now),
+                "INSERT INTO tasks(task_id, description, workspace, state, timeout_seconds, max_attempts, attempts, max_memory_bytes, min_free_disk_bytes, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, 0, ?, ?, ?, ?)",
+                (task_id, self._redact(description), str(workspace.resolve()), TaskState.PENDING, timeout_seconds, max_attempts, max_memory_bytes, min_free_disk_bytes, now, now),
             )
             self._event(connection, task_id, "created", "task created", now)
         self.audit_log.append("task_created", task_id, "persistent task created")
@@ -191,6 +212,16 @@ class TaskStore:
             self._event(connection, approval.task_id, "approval_recorded", f"action={approval.action}", now)
         self.audit_log.append("task_approval_recorded", approval.task_id, f"action={approval.action}")
 
+    def active_approval(self, task_id: str, action: Action, workspace: Path, now: datetime | None = None) -> Approval | None:
+        current = (now or utc_now()).isoformat()
+        with self._connect() as connection:
+            row = connection.execute(
+                "SELECT action, workspace, approved_by, expires_at FROM task_approvals WHERE task_id = ? AND action = ? AND workspace = ? AND expires_at > ? ORDER BY approval_id DESC LIMIT 1",
+                (task_id, str(action), str(workspace.resolve()), current),
+            ).fetchone()
+        if row is None:
+            return None
+        return Approval(task_id, Action(row["action"]), Path(row["workspace"]), row["approved_by"], datetime.fromisoformat(row["expires_at"]))
     def reports(self, task_id: str) -> list[dict[str, str]]:
         with self._connect() as connection:
             rows = connection.execute(

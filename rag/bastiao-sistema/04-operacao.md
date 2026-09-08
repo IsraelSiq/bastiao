@@ -57,6 +57,11 @@ repositório, em diretórios com permissões restritas. Antes de usar uma versã
 operacional do agente, valide a política de cada projeto e mantenha a
 aprovação humana para escrita, commit e push.
 
+O painel de tarefas requer caminhos explícitos para o banco SQLite e a
+auditoria, fora do repositório. Use `scripts/painel_tarefas.py --help` para
+consultar a fila, exibir uma tarefa, registrar aprovação ou cancelar uma
+tarefa; ele não inicia execução automaticamente.
+
 ## Backup
 
 Antes de alterar imagens ou Compose, valide o backup por SHA-256 e execute um

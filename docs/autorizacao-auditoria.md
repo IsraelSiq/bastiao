@@ -38,3 +38,7 @@ editar, commitar ou publicar; o executor correlaciona cada chamada ao
 workspace e tarefa persistidos. Ações externas permanecem sem ferramentas
 registradas: não há Docker, rede, APIs externas, pull requests ou shell
 arbitrário.
+
+As aprovações podem ser registradas pelo painel local de terminal, sempre com
+identidade do operador e prazo UTC. O banco SQLite e o arquivo de auditoria
+ficam fora do repositório e possuem permissões restritivas.

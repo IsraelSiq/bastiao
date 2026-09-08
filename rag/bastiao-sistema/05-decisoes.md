@@ -31,6 +31,9 @@ A GPU NVIDIA GTX 1660 Ti sera disponibilizada ao container Ollama via NVIDIA Con
 - A automação local opera em workspaces isolados, com Git, testes e revisão
   humana antes de commit/push. O executor integrado só expõe leitura segura e
   Git `status`/`log`; integrações externas continuam futuras.
+- A Fase 4 usa SQLite para tarefas, aprovações e relatórios, com timeout,
+  cancelamento e recuperação persistidos. Não há replay automático após falha
+  ou reinício.
 - O repositorio GitHub contem somente documentação e exemplos sanitizados.
 
 ## Outras decisoes

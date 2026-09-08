@@ -17,4 +17,5 @@ permitido apenas para tarefas não terminais.
 O executor recebe apenas ferramentas registradas, aplica o timeout persistido e
 correlaciona a chamada ao workspace da tarefa. Timeout move a tarefa para
 `blocked`; falhas retornam a `planning` somente quando restam tentativas. Não
-há concorrência nem replay automático.
+há replay automático. A concorrência é limitada por `max_concurrency` (um por
+padrão); excesso de chamadas é recusado, nunca enfileirado implicitamente.

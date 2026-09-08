@@ -30,3 +30,8 @@ fixo, timeout interruptível, auditoria encadeada e validação de caminhos. O
 executor só invoca ferramentas registradas e, no estado atual, expõe apenas
 leitura de arquivo permitido e Git `status`/`log`. Instalar ferramentas ou
 plugins adicionais exige revisão de código e política antes do registro.
+
+O Task Engine limita concorrência por Worker, permite cancelamento ativo e
+verifica quotas de disco; limites de CPU/memória são aplicados no host Linux.
+O painel de aprovação é local em terminal e requer acesso ao usuário do
+sistema que protege o banco SQLite e o log de auditoria.

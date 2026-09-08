@@ -55,3 +55,13 @@ def test_reports_and_approvals_are_persisted_without_secret_values(tmp_path: Pat
     assert report["reports"][0]["summary"] == "password=[REDACTED]"
     assert report["approvals"][0]["action"] == "edit"
     assert queue[0]["task"].task_id == "task-1"
+
+
+def test_active_approval_is_scoped_and_expires(tmp_path: Path):
+    task_store = store(tmp_path)
+    workspace = tmp_path / "workspace"
+    task_store.create_task("task-1", "Scoped approval", workspace)
+    valid = Approval("task-1", Action.EDIT, workspace, "owner", utc_now() + timedelta(minutes=10))
+    task_store.add_approval(valid)
+    assert task_store.active_approval("task-1", Action.EDIT, workspace) == valid
+    assert task_store.active_approval("task-1", Action.PUSH, workspace) is None

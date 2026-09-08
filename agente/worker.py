@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from threading import Lock
 from agente.autorizacao import TaskState
 from agente.executor import ToolExecutor
 from agente.ferramentas import ToolCall
@@ -11,8 +12,13 @@ from agente.tarefas import Task, TaskStore
 class TaskWorker:
     """Coordena estados e tentativas; executores de ferramentas são outra camada."""
 
-    def __init__(self, task_store: TaskStore) -> None:
+    def __init__(self, task_store: TaskStore, max_concurrency: int = 1) -> None:
+        if max_concurrency <= 0:
+            raise ValueError("max_concurrency deve ser positivo")
         self.task_store = task_store
+        self.max_concurrency = max_concurrency
+        self._active_task_ids: set[str] = set()
+        self._lock = Lock()
 
     def begin(self, task_id: str) -> Task:
         task = self.task_store.get_task(task_id)
@@ -53,14 +59,26 @@ class TaskWorker:
 
     def execute_once(self, task_id: str, executor: ToolExecutor, call: ToolCall) -> dict:
         """Executa uma chamada única; novas tentativas exigem novo início explícito."""
-        self.begin(task_id)
+        with self._lock:
+            if len(self._active_task_ids) >= self.max_concurrency:
+                raise RuntimeError("limite de concorrencia atingido")
+            if task_id in self._active_task_ids:
+                raise RuntimeError("tarefa ja esta em execucao neste worker")
+            self._active_task_ids.add(task_id)
         try:
-            result = executor.execute(task_id, call)
-        except TimeoutError:
-            self.task_store.transition(task_id, TaskState.BLOCKED)
-            raise
-        except (FileNotFoundError, PermissionError, RuntimeError, OSError):
-            self.fail(task_id)
-            raise
-        self.succeed(task_id)
-        return result
+            self.begin(task_id)
+            try:
+                result = executor.execute(task_id, call)
+            except TimeoutError:
+                self.task_store.transition(task_id, TaskState.BLOCKED)
+                raise
+            except InterruptedError:
+                raise
+            except (FileNotFoundError, PermissionError, RuntimeError, OSError):
+                self.fail(task_id)
+                raise
+            self.succeed(task_id)
+            return result
+        finally:
+            with self._lock:
+                self._active_task_ids.discard(task_id)

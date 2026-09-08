@@ -14,6 +14,11 @@ Cada chamada é isolada em processo filho e terminada se exceder o timeout
 persistido da tarefa. Um encerramento deixa a tarefa em execução para que o
 Worker a bloqueie durante recuperação, e nunca dispara replay automático.
 
+Antes da chamada, o executor confere o mínimo de espaço livre persistido. Em
+hosts POSIX, o filho também recebe limites de memória virtual e tempo de CPU;
+em Windows, o timeout continua sendo aplicado, mas os limites POSIX não estão
+disponíveis. Uma tarefa cancelada encerra o filho e permanece `cancelled`.
+
 Ferramentas que exigem edição ou ação externa continuam dependentes de
 aprovação válida. Não há shell, `sudo`, Docker, rede, Git de escrita ou
 repetição automática de operação.
