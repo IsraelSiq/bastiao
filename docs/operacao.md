@@ -93,3 +93,9 @@ via `scripts/backup_externo.sh` envia um snapshot (sem os modelos Ollama, que
 são reproduzíveis) para o Google Drive com verificação de integridade e
 retenção. O procedimento completo, incluindo configuração do `rclone`, teste de
 restauração e rollback, está em [Backup e restauração](backup-restauracao.md).
+
+## Open WebUI: dados, vers?o e boot
+
+- O volume `./data:/app/backend/data` ? obrigat?rio: sem ele o container sobe com banco vazio e os chats somem ao recriar.
+- A imagem est? fixada por digest (v0.11.4). Para atualizar, troque o digest no `compose.yml`, fa?a backup de `data` antes e confira `/api/version`.
+- A porta ? publicada no IP do Tailscale. Se o Docker subir antes desse IP existir, a porta fica sem publicar (ERR_CONNECTION_REFUSED). O `infra/open-webui/ensure-up.sh` corrige isso e roda via cron `@reboot` (log em `~/ensure-open-webui.log`). Pode ser executado manualmente a qualquer momento.
