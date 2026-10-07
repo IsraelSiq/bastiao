@@ -11,7 +11,8 @@ Operar um servidor doméstico 24/7, acessível remotamente por rede privada, com
 - Ubuntu Server 26.04 LTS
 - Acesso remoto por SSH e Tailscale
 - Docker Engine 29.8.0 e Docker Compose v5.5.1
-- Open WebUI em Docker, autenticado e publicado somente no IP Tailscale do host
+- Open WebUI v0.11.4 em Docker (imagem fixada por digest), autenticado, com dados persistidos em `infra/open-webui/data` e publicado somente no IP Tailscale do host
+- Boot resiliente: `infra/open-webui/ensure-up.sh` (cron `@reboot`) espera o IP do Tailscale e garante a porta publicada
 - Ollama em Docker, acessível apenas pela rede interna Docker
 - NVIDIA GeForce GTX 1660 Ti com 6144 MiB de VRAM
 - Driver NVIDIA 595.84 e NVIDIA Container Toolkit
